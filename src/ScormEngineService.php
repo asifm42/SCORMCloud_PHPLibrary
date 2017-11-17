@@ -37,24 +37,23 @@
  * @package RusticiSoftware.ScormEngine.Cloud
  */
 
-require_once 'Configuration.php';
-require_once 'ServiceRequest.php';
-require_once 'CourseService.php';
-require_once 'InvitationService.php';
-require_once 'RegistrationService.php';
-require_once 'UploadService.php';
-require_once 'ReportingService.php';
-require_once 'TaggingService.php';
-require_once 'AccountService.php';
-require_once 'DebugService.php';
-require_once 'DispatchService.php';
-require_once 'LrsAccountService.php';
-require_once 'ApplicationService.php';
-require_once 'DebugLogger.php';
+namespace AsifM42\ScormCloud;
 
+use AsifM42\ScormCloud\Configuration;
+use AsifM42\ScormCloud\ServiceRequest;
+use AsifM42\ScormCloud\CourseService;
+use AsifM42\ScormCloud\InvitationService;
+use AsifM42\ScormCloud\RegistrationService;
+use AsifM42\ScormCloud\UploadService;
+use AsifM42\ScormCloud\ReportingService;
+use AsifM42\ScormCloud\TaggingService;
+use AsifM42\ScormCloud\AccountService;
+use AsifM42\ScormCloud\DebugService;
+use AsifM42\ScormCloud\DispatchService;
+use AsifM42\ScormCloud\LrsAccountService;
+use AsifM42\ScormCloud\ApplicationService;
 
-
-class ScormEngineService{
+class ScormEngineService {
 
 	private $_configuration = null;
     private $_courseService = null;

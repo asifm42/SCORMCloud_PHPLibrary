@@ -28,6 +28,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace AsifM42\ScormCloud;
+
  /// <summary>
     /// Data class to hold high-level Registration Summary
     /// </summary>

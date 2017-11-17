@@ -28,12 +28,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace AsifM42\ScormCloud;
 
-require_once 'RegistrationData.php';
-require_once 'Enum.php';
-require_once 'LaunchInfo.php';
-require_once 'RegistrationSummary.php';
-require_once 'DebugLogger.php';
+use AsifM42\ScormCloud\RegistrationData;
+use AsifM42\ScormCloud\Enum;
+use AsifM42\ScormCloud\LaunchInfo;
+use AsifM42\ScormCloud\RegistrationSummary;
 
 	/// <summary>
    	/// Client-side proxy for the "rustici.registration.*" Hosted SCORM Engine web

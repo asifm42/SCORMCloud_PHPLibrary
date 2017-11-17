@@ -28,9 +28,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace AsifM42\ScormCloud;
 
-require_once 'Configuration.php';
-require_once 'DebugLogger.php';
+use AsifM42\ScormCloud\Configuration;
 
 class ServiceRequest{
 

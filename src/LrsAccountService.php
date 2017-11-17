@@ -28,13 +28,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-require_once 'ServiceRequest.php';
-require_once 'CourseData.php';
-require_once 'Enum.php';
-require_once 'UploadService.php';
-require_once 'ImportResult.php';
-require_once 'DebugLogger.php';
-require_once 'LrsAccount.php';
+namespace AsifM42\ScormCloud;
+
+use AsifM42\ScormCloud\ServiceRequest;
+use AsifM42\ScormCloud\CourseData;
+use AsifM42\ScormCloud\Enum;
+use AsifM42\ScormCloud\UploadService;
+use AsifM42\ScormCloud\ImportResult;
+use AsifM42\ScormCloud\LrsAccount;
 
 /// <summary>
 /// Client-side proxy for the "rustici.lrsaccont.*" Hosted SCORM Engine web

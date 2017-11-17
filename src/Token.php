@@ -28,6 +28,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace AsifM42\ScormCloud;
 
 /// <summary>
 /// Client-side token class for the tokens of the form <token><id>...</id></token>

@@ -28,9 +28,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace AsifM42\ScormCloud;
 
-require_once 'ServiceRequest.php';
-require_once 'DebugLogger.php';
+use AsifM42\ScormCloud\ServiceRequest;
 
 /// <summary>
 /// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web

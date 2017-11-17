@@ -1,8 +1,15 @@
 {
-    "description": "This package simplifies connecting to the SCORM Cloud API (v1).",
     "name": "asifm42/scorm-cloud-php",
     "description": "This package simplifies connecting to the Rustici Software's SCORM Cloud API (v1).",
     "require": {
         "php": "^5.6.30 || ^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AsifM42\\ScormCloud\\": "src/"
+        },
+        "files": [
+            "src/DebugLogger.php"
+        ]
     }
 }
