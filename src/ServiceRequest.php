@@ -32,9 +32,9 @@ namespace AsifM42\ScormCloud;
 
 use AsifM42\ScormCloud\Configuration;
 
-class ServiceRequest{
-
-	/**
+class ServiceRequest
+{
+    /**
      * Number of seconds to wait while connecting to the server.
      */
     const TIMEOUT_CONNECTION = 30;
@@ -43,25 +43,26 @@ class ServiceRequest{
      */
     const TIMEOUT_TOTAL = 500;
 
-	private $_configuration = null;
-	private $_methodParams = array();
-	private $_fileToPost = null;
+    private $_configuration = null;
+    private $_methodParams = array();
+    private $_fileToPost = null;
 
-	public function __construct($configuration) {
-		$this->_configuration = $configuration;
-		$this->_methodParams['applib'] = 'php';
-		//$this->_methodParams['appname'] = '';
-	}
+    public function __construct($configuration)
+    {
+        $this->_configuration = $configuration;
+        $this->_methodParams['applib'] = 'php';
+        //$this->_methodParams['appname'] = '';
+    }
 
-	public function setMethodParams($paramsArray)
-	{
-		$this->_methodParams = array_merge($this->_methodParams, $paramsArray);
-	}
+    public function setMethodParams($paramsArray)
+    {
+        $this->_methodParams = array_merge($this->_methodParams, $paramsArray);
+    }
 
-	public function setFileToPost($fileName)
-	{
-		$this->_fileToPost = $fileName;
-	}
+    public function setFileToPost($fileName)
+    {
+        $this->_fileToPost = $fileName;
+    }
 
     public function setProxy($proxy) {
         if (is_string($proxy)) {
@@ -69,34 +70,33 @@ class ServiceRequest{
         }
     }
 
-	public function CallService($methodName, $serviceUrl = null)
-	{
-		$postParams = null;
-		if(isset($this->_fileToPost))
-		{
-			//echo '_fileToPost='.$this->_fileToPost;
-			//TODO - check to see if this file exists
-			if (!function_exists('curl_file_create')) {
-				// PHP version older than 5.5
-				$postParams = array('filedata' => "@$this->_fileToPost");
-			} else {
-				// PHP 5.5 and higher uses curl_file_create.
-				$postParams = array('filedata' => curl_file_create($this->_fileToPost));
-			}
-		}
+    public function CallService($methodName, $serviceUrl = null)
+    {
+        $postParams = null;
+        if (isset($this->_fileToPost)) {
+            //echo '_fileToPost='.$this->_fileToPost;
+            //TODO - check to see if this file exists
+            if (!function_exists('curl_file_create')) {
+                // PHP version older than 5.5
+                $postParams = array('filedata' => "@$this->_fileToPost");
+            } else {
+                // PHP 5.5 and higher uses curl_file_create.
+                $postParams = array('filedata' => curl_file_create($this->_fileToPost));
+            }
+        }
 
         //$responseText = Encoding.GetEncoding("utf-8").GetString(responseBytes);
 
-		$url = $this->ConstructUrl($methodName, $serviceUrl);
+        $url = $this->ConstructUrl($methodName, $serviceUrl);
 
-		//echo $url.'<br><br>';
+        //echo $url.'<br><br>';
         $curlProxy = $this->_configuration->getProxy();
-		$responseText = $this->submitHttpPost($url,$postParams, self::TIMEOUT_TOTAL, $curlProxy);
-		//error_log($responseText);
+        $responseText = $this->submitHttpPost($url,$postParams, self::TIMEOUT_TOTAL, $curlProxy);
+        //error_log($responseText);
         $response = $this->AssertNoErrorAndReturnXml($responseText);
 
         return $response;
-	}
+    }
 
     public function CallManagerService($methodName, $serviceUrl = null)
     {
@@ -128,67 +128,67 @@ class ServiceRequest{
                                         $serviceUrl);
     }
 
-	public function ConstructAppAgnosticUrl($appId, $secretKey, $methodName, $serviceUrl = null)
-	{
-		//error_log('serviceUrl = '.$serviceUrl);
-		$parameterMap = array(	'method' => $methodName,
-								'appid' => $appId,
-								'origin' => $this->_configuration->getOriginString(),
-								'ts' => gmdate("YmdHis")
-							);
+    public function ConstructAppAgnosticUrl($appId, $secretKey, $methodName, $serviceUrl = null)
+    {
+        //error_log('serviceUrl = '.$serviceUrl);
+        $parameterMap = array(  'method' => $methodName,
+                                'appid' => $appId,
+                                'origin' => $this->_configuration->getOriginString(),
+                                'ts' => gmdate("YmdHis")
+                            );
 
-		array_merge($parameterMap,$this->_methodParams);
-		foreach($this->_methodParams as $key => $value)
-		{
-			$parameterMap[$key] = $value;
-		}
+        array_merge($parameterMap,$this->_methodParams);
 
-		if(isset($serviceUrl))
-		{
-			$url = $serviceUrl.'/api';
-		}else{
-			$url = $this->_configuration->getScormEngineServiceUrl().'/api';
-		}
-
-
-		$url .= '?'.$this->signParams($secretKey,$parameterMap);
-
-		write_log("SCORM Cloud ConstructUrl : ".$url);
-
-		return $url;
-	}
-
-	 /// <summary>
-        /// This method will evaluate the reponse string and manually validate
-        /// the top-level structure.  If an err is present, this will be turned
-        /// into a Service Exception.
-        /// </summary>
-        /// <param name="xmlString">Response from web service as xml</param>
-        /// <returns>XML document from the given string, provided no service errors are present</returns>
-        private static function AssertNoErrorAndReturnXml($xmlString)
-        {
-
-            $xmlDoc = simplexml_load_string($xmlString);
-
-            $rspElements = $xmlDoc;
-			write_log('stat : '.$rspElements["stat"]);
-			if($rspElements["stat"]!='ok')
-			{
-				$errmsg = "";
-				if($rspElements["stat"]=='fail')
-				{
-					$errmsg = "SCORM Cloud Error : ".$rspElements->err["code"]." - ".$rspElements->err["msg"];
-				}else{
-					$errmsg = "Invalid XML Response from web service call, expected <rsp> tag, instead received: ".$xmlString;
-				}
-				error_log($errmsg);
-				throw new Exception($errmsg);
-			}
-
-            return $xmlString;
+        foreach ($this->_methodParams as $key => $value) {
+            $parameterMap[$key] = $value;
         }
 
-	/**
+        if (isset($serviceUrl)) {
+            $url = $serviceUrl.'/api';
+        } else {
+            $url = $this->_configuration->getScormEngineServiceUrl().'/api';
+        }
+
+        $url .= '?'.$this->signParams($secretKey,$parameterMap);
+
+        write_log("SCORM Cloud ConstructUrl : ".$url);
+
+        return $url;
+    }
+
+     /// <summary>
+    /// This method will evaluate the reponse string and manually validate
+    /// the top-level structure.  If an err is present, this will be turned
+    /// into a Service Exception.
+    /// </summary>
+    /// <param name="xmlString">Response from web service as xml</param>
+    /// <returns>XML document from the given string, provided no service errors are present</returns>
+    private static function AssertNoErrorAndReturnXml($xmlString)
+    {
+
+        $xmlDoc = simplexml_load_string($xmlString);
+
+        $rspElements = $xmlDoc;
+        write_log('stat : '.$rspElements["stat"]);
+
+        if ($rspElements["stat"]!='ok') {
+            $errmsg = "";
+
+            if ($rspElements["stat"]=='fail') {
+                $errmsg = "SCORM Cloud Error : ".$rspElements->err["code"]." - ".$rspElements->err["msg"];
+            } else {
+                $errmsg = "Invalid XML Response from web service call, expected <rsp> tag, instead received: ".$xmlString;
+            }
+
+            error_log($errmsg);
+
+            throw new Exception($errmsg);
+        }
+
+        return $xmlString;
+    }
+
+    /**
      * Submit a POST request with to the specified URL with given parameters.
      *
      * @param   string $url
@@ -206,10 +206,10 @@ class ServiceRequest{
      */
     static function submitHttpPost($url, $postParams = null,  $timeout = self::TIMEOUT_TOTAL ,$curlProxy = null)
     {
-		//foreach($postParams as $key => $value)
-		//{
-		//	echo $key.'='.$value.'<br>';
-		//}
+        //foreach($postParams as $key => $value)
+        //{
+        //  echo $key.'='.$value.'<br>';
+        //}
         $ch = curl_init();
 
         // set up the request
@@ -217,9 +217,9 @@ class ServiceRequest{
         // make sure we submit this as a post
         curl_setopt($ch, CURLOPT_POST, true);
         if (isset($postParams)) {
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postParams);
-        }else{
+        } else {
             curl_setopt($ch, CURLOPT_POSTFIELDS, "");
         }
         // make sure problems are caught
@@ -230,8 +230,8 @@ class ServiceRequest{
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, self::TIMEOUT_CONNECTION);
         curl_setopt($ch, CURLOPT_TIMEOUT,$timeout);
 
-		//set header expect empty for upload issue...
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
+        //set header expect empty for upload issue...
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
 
         //set proxy
         if (!empty($curlProxy)) {
@@ -268,17 +268,13 @@ class ServiceRequest{
             ksort($params, SORT_STRING);
         }
 
-        foreach($params as $key => $value) {
+        foreach ($params as $key => $value) {
             $signing .= $key . $value;
             $values[] = $key . '=' . urlencode($value);
         }
+
         $values[] = 'sig=' . md5($secret . $signing);
 
         return implode('&', $values);
     }
-
-
-
 }
-
-?>

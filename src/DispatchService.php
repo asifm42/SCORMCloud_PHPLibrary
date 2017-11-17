@@ -38,23 +38,26 @@ use AsifM42\ScormCloud\Dispatch;
 /// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web
 /// service methods.
 /// </summary>
-class DispatchService {
+class DispatchService
+{
+    private $_configuration = null;
 
-	private $_configuration = null;
-
-	public function __construct($configuration) {
-		$this->_configuration = $configuration;
-	}
+    public function __construct($configuration) {
+        $this->_configuration = $configuration;
+    }
 
     public function GetDestinationList($page, $tagList = null)
     {
         $request = new ServiceRequest($this->_configuration);
         $params = array('page' => $page);
-        if($tagList != null && count($tagList) > 0){
+
+        if ($tagList != null && count($tagList) > 0) {
             $params['tags'] = implode(',',$tagList);
         }
-		$request->setMethodParams($params);
+
+        $request->setMethodParams($params);
         $response = $request->CallService("rustici.dispatch.getDestinationList");
+
         return DispatchDestination::parseDestinationList($response);
     }
 
@@ -62,16 +65,20 @@ class DispatchService {
     {
         $request = new ServiceRequest($this->_configuration);
         $params = array('name' => $name);
-        if($tagList != null && count($tagList) > 0){
+
+        if ($tagList != null && count($tagList) > 0) {
             $params['tags'] = implode(',',$tagList);
         }
-        if($email != null){
+
+        if ($email != null) {
             $params['email'] = $email;
         }
-		$request->setMethodParams($params);
+
+        $request->setMethodParams($params);
         $response = $request->CallService("rustici.dispatch.createDestination");
 
-		$xml = simplexml_load_string($response);
+        $xml = simplexml_load_string($response);
+
         return $xml->destinationId;
     }
 
@@ -79,7 +86,7 @@ class DispatchService {
     {
         $request = new ServiceRequest($this->_configuration);
         $params = array('destinationid' => $destinationId);
-		$request->setMethodParams($params);
+        $request->setMethodParams($params);
         $request->CallService("rustici.dispatch.deleteDestination");
     }
 
@@ -87,9 +94,10 @@ class DispatchService {
     {
         $request = new ServiceRequest($this->_configuration);
         $params = array('destinationid' => $destinationId);
-		$request->setMethodParams($params);
+        $request->setMethodParams($params);
         $response = $request->CallService("rustici.dispatch.getDestinationInfo");
         $xml = simplexml_load_string($response);
+
         return new DispatchDestination($xml->dispatchDestination);
     }
 
@@ -97,13 +105,16 @@ class DispatchService {
     {
         $request = new ServiceRequest($this->_configuration);
         $params = array('destinationid' => $destinationId);
-        if($name != null) {
+
+        if ($name != null) {
             $params['name'] = $name;
         }
-        if($tagList != null){
+
+        if ($tagList != null) {
             $params['tags'] = implode(',',$tagList);
         }
-		$request->setMethodParams($params);
+
+        $request->setMethodParams($params);
         $request->CallService("rustici.dispatch.updateDestination");
     }
 
@@ -113,15 +124,19 @@ class DispatchService {
         $request = new ServiceRequest($this->_configuration);
         $params = array('destinationid' => $destinationId);
         $params['courseid'] = $courseId;
-        if($tagList != null){
+
+        if ($tagList != null) {
             $params['tags'] = implode(',',$tagList);
         }
-        if($email != null){
+
+        if ($email != null) {
             $params['email'] = $email;
         }
-		$request->setMethodParams($params);
+
+        $request->setMethodParams($params);
         $response = $request->CallService("rustici.dispatch.createDispatch");
         $xml = simplexml_load_string($response);
+
         return $xml->dispatchId;
     }
 
@@ -129,9 +144,10 @@ class DispatchService {
     {
         $request = new ServiceRequest($this->_configuration);
         $params = array('dispatchid' => $dispatchId);
-		$request->setMethodParams($params);
+        $request->setMethodParams($params);
         $response = $request->CallService("rustici.dispatch.getDispatchInfo");
         $xml = simplexml_load_string($response);
+
         return new Dispatch($xml->dispatch);
     }
 
@@ -139,19 +155,23 @@ class DispatchService {
     {
         $request = new ServiceRequest($this->_configuration);
         $params = array();
-        if($destinationId != null){
+        if ($destinationId != null) {
             $params['destinationid'] = $destinationId;
         }
-        if($courseId != null){
+
+        if ($courseId != null) {
             $params['courseid'] = $courseId;
         }
-        if($dispatchId != null){
+
+        if ($dispatchId != null) {
             $params['dispatchid'] = $dispatchId;
         }
-        if($tagList != null && count($tagList) > 0){
+
+        if ($tagList != null && count($tagList) > 0) {
             $params['tags'] = implode(',',$tagList);
         }
-		$request->setMethodParams($params);
+
+        $request->setMethodParams($params);
         $request->CallService("rustici.dispatch.deleteDispatches");
     }
 
@@ -159,17 +179,22 @@ class DispatchService {
     {
         $request = new ServiceRequest($this->_configuration);
         $params = array("page" => $page);
-        if($destinationId != null){
+
+        if ($destinationId != null) {
             $params['destinationid'] = $destinationId;
         }
-        if($courseId != null){
+
+        if ($courseId != null) {
             $params['courseid'] = $courseId;
         }
-        if($tagList != null && count($tagList) > 0){
+
+        if ($tagList != null && count($tagList) > 0) {
             $params['tags'] = implode(',',$tagList);
         }
-		$request->setMethodParams($params);
+
+        $request->setMethodParams($params);
         $response = $request->CallService("rustici.dispatch.getDispatchList");
+
         return Dispatch::parseDispatchList($response);
     }
 
@@ -178,28 +203,36 @@ class DispatchService {
         echo "enabled = $enabled\n";
         $request = new ServiceRequest($this->_configuration);
         $params = array();
-        if($destinationId != null){
+
+        if ($destinationId != null) {
             $params['destinationid'] = $destinationId;
         }
-        if($courseId != null){
+
+        if ($courseId != null) {
             $params['courseid'] = $courseId;
         }
-        if($dispatchId != null){
+
+        if ($dispatchId != null) {
             $params['dispatchid'] = $dispatchId;
         }
-        if($tagList != null && count($tagList) > 0){
+
+        if ($tagList != null && count($tagList) > 0) {
             $params['tags'] = implode(',',$tagList);
         }
-        if($enabled != -1){
+
+        if ($enabled != -1) {
             $params['enabled'] = ($enabled ? "true" : "false");
         }
-        if($tagsToAdd != null && count($tagsToAdd) > 0){
+
+        if ($tagsToAdd != null && count($tagsToAdd) > 0) {
             $params['addtags'] = implode(',',$tagsToAdd);
         }
-        if($tagsToRemove != null && count($tagsToRemove) > 0){
+
+        if ($tagsToRemove != null && count($tagsToRemove) > 0) {
             $params['removetags'] = implode(',',$tagsToRemove);
         }
-		$request->setMethodParams($params);
+
+        $request->setMethodParams($params);
         $request->CallService("rustici.dispatch.updateDispatches");
     }
 
@@ -207,23 +240,29 @@ class DispatchService {
     {
         $request = new ServiceRequest($this->_configuration);
         $params = array();
-        if($destinationId != null){
+
+        if ($destinationId != null) {
             $params['destinationid'] = $destinationId;
         }
-        if($courseId != null){
+
+        if ($courseId != null) {
             $params['courseid'] = $courseId;
         }
-        if($dispatchId != null){
+
+        if ($dispatchId != null) {
             $params['dispatchid'] = $dispatchId;
         }
-        if($tagList != null && count($tagList) > 0){
+
+        if ($tagList != null && count($tagList) > 0) {
             $params['tags'] = implode(',',$tagList);
         }
-        if($cssUrl != null){
+
+        if ($cssUrl != null) {
             $params['cssurl'] = $cssUrl;
         }
-		$request->setMethodParams($params);
+
+        $request->setMethodParams($params);
+
         return $request->ConstructUrl("rustici.dispatch.downloadDispatches");
     }
-
 }

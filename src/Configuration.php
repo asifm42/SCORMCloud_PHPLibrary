@@ -30,9 +30,10 @@
 
 namespace AsifM42\ScormCloud;
 
-class Configuration{
+class Configuration
+{
 
-	private $_appId = null;
+    private $_appId = null;
     private $_securityKey = null;
     private $_scormEngineServiceUrl = null;
     private $_appManagerId = null;
@@ -41,97 +42,106 @@ class Configuration{
 
     private $_proxy = null;
 
-	public function __construct($scormEngineServiceUrl, $appId, $securityKey, $appManagerId, $managerSecurityKey, $originString) {
-		//echo $scormEngineServiceUrl;
-		//echo $appId;
-		//echo $securityKey;
-		// scormEngineServiceUrl (required)
-		if (isset($scormEngineServiceUrl)) {
-			$this->setScormEngineServiceUrl($scormEngineServiceUrl);
-		} else {
-			//throw new ScormEngine_Exception('Must provide a scormEngineServiceUrl.');
-		}
-		// appId (required)
-		if (isset($appId)) {
-			$this->setAppId($appId);
-		} else {
-			//throw new ScormEngine_Exception('Must provide an appId.');
-		}
-		// securityKey (required)
-		if (isset($securityKey)) {
-			$this->setSecurityKey($securityKey);
-		} else {
-			//throw new ScormEngine_Exception('Must provide a securityKey.');
-		}
+    public function __construct($scormEngineServiceUrl, $appId, $securityKey, $appManagerId, $managerSecurityKey, $originString) {
+        //echo $scormEngineServiceUrl;
+        //echo $appId;
+        //echo $securityKey;
 
-		// appManagerId
-		if (isset($appManagerId)) {
-			$this->setAppManagerId($appManagerId);
-		}
-		// managerSecurityKey
-		if (isset($managerSecurityKey)) {
-			$this->setManagerSecurityKey($managerSecurityKey);
-		}
+        // scormEngineServiceUrl (required)
+        if (isset($scormEngineServiceUrl)) {
+            $this->setScormEngineServiceUrl($scormEngineServiceUrl);
+        } else {
+            //throw new ScormEngine_Exception('Must provide a scormEngineServiceUrl.');
+        }
 
-		if (isset($originString)) {
-			$this->setOriginString($originString);
-		}
-	}
+        // appId (required)
+        if (isset($appId)) {
+            $this->setAppId($appId);
+        } else {
+            //throw new ScormEngine_Exception('Must provide an appId.');
+        }
 
-	public function getAppId()
-	{
-		return $this->_appId;
-	}
-	public function setAppId($appId)
-	{
-		$this->_appId = $appId;
-	}
+        // securityKey (required)
+        if (isset($securityKey)) {
+            $this->setSecurityKey($securityKey);
+        } else {
+            //throw new ScormEngine_Exception('Must provide a securityKey.');
+        }
 
-	public function getSecurityKey()
-	{
-		return $this->_securityKey;
-	}
-	public function setSecurityKey($securityKey)
-	{
-		$this->_securityKey = $securityKey;
-	}
+        // appManagerId
+        if (isset($appManagerId)) {
+            $this->setAppManagerId($appManagerId);
+        }
 
-	public function getAppManagerId()
-	{
-		return $this->_appManagerId;
-	}
-	public function setAppManagerId($appManagerId)
-	{
-		$this->_appManagerId = $appManagerId;
-	}
+        // managerSecurityKey
+        if (isset($managerSecurityKey)) {
+            $this->setManagerSecurityKey($managerSecurityKey);
+        }
 
-	public function getManagerSecurityKey()
-	{
-		return $this->_managerSecurityKey;
-	}
-	public function setManagerSecurityKey($securityKey)
-	{
-		$this->_managerSecurityKey = $securityKey;
-	}
+        if (isset($originString)) {
+            $this->setOriginString($originString);
+        }
+    }
 
-	public function getScormEngineServiceUrl()
-	{
-		return $this->_scormEngineServiceUrl;
-	}
-	public function setScormEngineServiceUrl($scormEngineServiceUrl)
-	{
-		$this->_scormEngineServiceUrl = $scormEngineServiceUrl;
-	}
+    public function getAppId()
+    {
+        return $this->_appId;
+    }
 
-	public function getOriginString()
-	{
-		return $this->_originString;
-	}
+    public function setAppId($appId)
+    {
+        $this->_appId = $appId;
+    }
 
-	public function setOriginString($originString)
-	{
-		$this->_originString = $originString;
-	}
+    public function getSecurityKey()
+    {
+        return $this->_securityKey;
+    }
+
+    public function setSecurityKey($securityKey)
+    {
+        $this->_securityKey = $securityKey;
+    }
+
+    public function getAppManagerId()
+    {
+        return $this->_appManagerId;
+    }
+
+    public function setAppManagerId($appManagerId)
+    {
+        $this->_appManagerId = $appManagerId;
+    }
+
+    public function getManagerSecurityKey()
+    {
+        return $this->_managerSecurityKey;
+    }
+
+    public function setManagerSecurityKey($securityKey)
+    {
+        $this->_managerSecurityKey = $securityKey;
+    }
+
+    public function getScormEngineServiceUrl()
+    {
+        return $this->_scormEngineServiceUrl;
+    }
+
+    public function setScormEngineServiceUrl($scormEngineServiceUrl)
+    {
+        $this->_scormEngineServiceUrl = $scormEngineServiceUrl;
+    }
+
+    public function getOriginString()
+    {
+        return $this->_originString;
+    }
+
+    public function setOriginString($originString)
+    {
+        $this->_originString = $originString;
+    }
 
     public function setProxy($proxy) {
         $this->_proxy = $proxy;
@@ -141,4 +151,3 @@ class Configuration{
         return $this->_proxy;
     }
 }
-?>

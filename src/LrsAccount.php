@@ -30,124 +30,110 @@
 
 namespace AsifM42\ScormCloud;
 
- /// <summary>
-    /// Data class to hold high-level Registration Data
-    /// </summary>
+/// <summary>
+/// Data class to hold high-level Registration Data
+/// </summary>
 class LrsAccount
+{
+    private $_accountKey;
+    private $_accountEnabled;
+    private $_accountLabel;
+    private $_accountSecret;
+    private $_accountAuthType;
+
+    /// private int numberOfInstances;
+    /// <summary>
+    /// Constructor which takes an XML node as returned by the web service.
+    /// </summary>
+    /// <param name="regDataEl"></param>
+    public function __construct($xmlDoc)
     {
-        private $_accountKey;
-        private $_accountEnabled;
-		private $_accountLabel;
-        private $_accountSecret;
-        private $_accountAuthType;
+        $xml = null;
 
-
-        /// private int numberOfInstances;
-        /// <summary>
-        /// Constructor which takes an XML node as returned by the web service.
-        /// </summary>
-        /// <param name="regDataEl"></param>
-        public function __construct($xmlDoc)
-        {
-            $xml = null;
-
-            if($xmlDoc instanceof SimpleXMLElement)
-            {
-                $xml = $xmlDoc;
-            }
-            else
-            {
-                $xml = simplexml_load_string($xmlDoc);
-                $xml = $xml->activityProvider;
-            }
-
-            $this->_accountKey = (string)$xml->accountKey;
-            $this->_accountEnabled = (boolean)$xml->accountEnabled;
-	        $this->_accountLabel = (string)$xml->accountLabel;
-            $this->_accountAuthType = (string)$xml->accountAuthType;
-            $this->_accountSecret = (string)$xml->accountSecret;
-        }
-
-
-        /// <summary>
-        /// Helper method which takes the full XmlDocument as returned from the registration listing
-        /// web service and returns a List of RegistrationData objects.
-        /// </summary>
-        /// <param name="xmlDoc"></param>
-        /// <returns></returns>
-        public static function ConvertToLrsAcountList($xmlDoc)
-        {
-			$allResults = array();
+        if ($xmlDoc instanceof SimpleXMLElement) {
+            $xml = $xmlDoc;
+        } else {
             $xml = simplexml_load_string($xmlDoc);
-			if(false === $xml)
-			{
-                echo 'error loading $xmlDoc';
+            $xml = $xml->activityProvider;
+        }
+
+        $this->_accountKey = (string)$xml->accountKey;
+        $this->_accountEnabled = (boolean)$xml->accountEnabled;
+        $this->_accountLabel = (string)$xml->accountLabel;
+        $this->_accountAuthType = (string)$xml->accountAuthType;
+        $this->_accountSecret = (string)$xml->accountSecret;
+    }
+
+
+    /// <summary>
+    /// Helper method which takes the full XmlDocument as returned from the registration listing
+    /// web service and returns a List of RegistrationData objects.
+    /// </summary>
+    /// <param name="xmlDoc"></param>
+    /// <returns></returns>
+    public static function ConvertToLrsAcountList($xmlDoc)
+    {
+        $allResults = array();
+        $xml = simplexml_load_string($xmlDoc);
+
+        if (false === $xml) {
+            echo 'error loading $xmlDoc';
+        } else {
+            foreach ($xml->activityProviderList->activityProvider as $activityProvider) {
+                $allResults[] = new LrsAccount($activityProvider);
             }
-            else
-            {
-                foreach ($xml->activityProviderList->activityProvider as $activityProvider)
-                {
-                    $allResults[] = new LrsAccount($activityProvider);
-                }
-            }
-
-
-            return $allResults;
         }
 
+        return $allResults;
+    }
 
-        public function getAccountKey()
-        {
-            return $this->_accountKey;
-        }
+    public function getAccountKey()
+    {
+        return $this->_accountKey;
+    }
 
+    public function getAccountEnabled()
+    {
+        return $this->_accountEnabled;
+    }
 
-        public function getAccountEnabled()
-        {
-            return $this->_accountEnabled;
-        }
+    public function getAccountLabel()
+    {
+        return $this->_accountLabel;
+    }
 
-		public function getAccountLabel()
-        {
-            return $this->_accountLabel;
-        }
+    public function getAccountSecret()
+    {
+        return $this->_accountSecret;
+    }
 
-        public function getAccountSecret()
-        {
-            return $this->_accountSecret;
-        }
+    public function getAccountAuthType()
+    {
+        return $this->_accountAuthType;
+    }
 
-        public function getAccountAuthType()
-        {
-            return $this->_accountAuthType;
-        }
+    public function setAccountKey($accountKey)
+    {
+        $this->_accountKey = $accountKey;
+    }
 
-        public function setAccountKey($accountKey)
-        {
-            $this->_accountKey = $accountKey;
-        }
+    public function setAccountEnabled($accountEnabled)
+    {
+        $this->_accountEnabled = $accountEnabled;
+    }
 
+    public function setAccountLabel($accountLabel)
+    {
+        $this->_accountLabel = $accountLabel;
+    }
 
-        public function setAccountEnabled($accountEnabled)
-        {
-            $this->_accountEnabled = $accountEnabled;
-        }
+    public function setAccountSecret($accountSecret)
+    {
+        $this->_accountSecret = $accountSecret;
+    }
 
-        public function setAccountLabel($accountLabel)
-        {
-            $this->_accountLabel = $accountLabel;
-        }
-
-        public function setAccountSecret($accountSecret)
-        {
-            $this->_accountSecret = $accountSecret;
-        }
-
-        public function setAccountAuthType($accountAuthType)
-        {
-            $this->_accountAuthType = $accountAuthType;
-        }
-
+    public function setAccountAuthType($accountAuthType)
+    {
+        $this->_accountAuthType = $accountAuthType;
+    }
 }
-
-?>

@@ -45,35 +45,35 @@ class Dispatch {
 
     public function __construct($xmlElem)
     {
-		if(isset($xmlElem))
-		{
-	        $this->_id = (string) $xmlElem->id;
-	        $this->_destinationId = (string) $xmlElem->destinationId;
-	        $this->_appId = (string) $xmlElem->appId;
-	        $this->_courseAppId = (string) $xmlElem->courseAppId;
-	        $this->_courseId = (string) $xmlElem->courseId;
-	        $this->_enabled = (string)$xmlElem->enabled;
-	        $this->_notes = (string) $xmlElem->notes;
-	        $this->_createdBy = (string) $xmlElem->createdBy;
-	        $this->_createDate = (string) $xmlElem->createDate;
-	        $this->_updateDate = (string) $xmlElem->updateDate;
+        if(isset($xmlElem))
+        {
+            $this->_id = (string) $xmlElem->id;
+            $this->_destinationId = (string) $xmlElem->destinationId;
+            $this->_appId = (string) $xmlElem->appId;
+            $this->_courseAppId = (string) $xmlElem->courseAppId;
+            $this->_courseId = (string) $xmlElem->courseId;
+            $this->_enabled = (string)$xmlElem->enabled;
+            $this->_notes = (string) $xmlElem->notes;
+            $this->_createdBy = (string) $xmlElem->createdBy;
+            $this->_createDate = (string) $xmlElem->createDate;
+            $this->_updateDate = (string) $xmlElem->updateDate;
             $this->_tags = array();
             foreach ($xmlElem->tags->tag as $tag){
-	            $this->_tags[] = (string)$tag;
+                $this->_tags[] = (string)$tag;
             }
-		}
+        }
     }
 
     public static function parseDispatchList($xmlString)
     {
         #echo $xmlString;
 
-		$xml = simplexml_load_string($xmlString);
-		if (false === $xml) {
+        $xml = simplexml_load_string($xmlString);
+        if (false === $xml) {
             //throw new ScormEngine_XmlParseException('Could not parse XML.', $courseDataElement);
         }
 
-		$allResults = array();
+        $allResults = array();
 
         foreach ($xml->dispatches->dispatch as $dispatchElem)
         {
@@ -137,6 +137,4 @@ class Dispatch {
     {
         return $this->_tags;
     }
-
 }
-?>

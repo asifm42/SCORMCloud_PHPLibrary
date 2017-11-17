@@ -30,7 +30,8 @@
 
 namespace AsifM42\ScormCloud;
 
-class AsyncImportResult {
+class AsyncImportResult
+{
     private $_status = "";
     private $_message = "";
     private $_progress = 0;
@@ -38,7 +39,8 @@ class AsyncImportResult {
 
     private $_importResults = array();
 
-    function __construct($xmlDoc) {
+    function __construct($xmlDoc)
+    {
         $xml = simplexml_load_string($xmlDoc);
 
         $this->_status = $xml->status;
@@ -62,29 +64,32 @@ class AsyncImportResult {
     }
 
     // Can be created/running/finished/error
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->_status;
     }
 
     // A user-readable message describing current import step
-    public function getMessage() {
+    public function getMessage()
+    {
         return $this->_message;
     }
 
     // (Optional) a list of import results
-    public function getImportResults() {
+    public function getImportResults()
+    {
         return $this->_importResults;
     }
 
     // (Optional) The progress of the import 0 - 100
-    public function getProgress() {
+    public function getProgress()
+    {
         return $this->_progress;
     }
 
     // Get the xml doc for the response
-    public function getXml() {
+    public function getXml()
+    {
         return $this->_xml;
     }
 }
-
-?>

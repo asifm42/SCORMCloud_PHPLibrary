@@ -38,30 +38,30 @@ use AsifM42\ScormCloud\Enum;
 /// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web
 /// service methods.
 /// </summary>
-class UploadToken{
-
-	private $_server;
+class UploadToken
+{
+    private $_server;
     private $_tokenId;
 
-	/// <summary>
+    /// <summary>
     /// Purpose of this class is to map the return xml from the course listing
     /// web service into an object.  This is the main constructor.
     /// </summary>
     /// <param name="courseDataElement"></param>
     public function __construct($tokenData)
     {
-		$xml = simplexml_load_string($tokenData);
-		if (false === $xml) {
+        $xml = simplexml_load_string($tokenData);
+        if (false === $xml) {
             //throw new ScormEngine_XmlParseException('Could not parse XML.', $courseDataElement);
         }
-		if(isset($xml))
-		{
-	        $this->_server = $xml->token->server;
-	        $this->_tokenId = $xml->token->id;
-		}
+
+        if (isset($xml)) {
+            $this->_server = $xml->token->server;
+            $this->_tokenId = $xml->token->id;
+        }
     }
 
-	/// <summary>
+    /// <summary>
     /// Gets the Server
     /// </summary>
     public function getServer()
@@ -76,7 +76,4 @@ class UploadToken{
     {
         return $this->_tokenId;
     }
-
 }
-
-?>

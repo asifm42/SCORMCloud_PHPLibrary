@@ -35,20 +35,17 @@
  *
  * @return bool success
  */
-function write_log($message) {
-	$debug_enabled = false;
+function write_log($message)
+{
+    $debug_enabled = false;
 
     if ($debug_enabled){
-	$fh = fopen('SCORMCloud_debug.log', 'a');
+    $fh = fopen('SCORMCloud_debug.log', 'a');
 
-	fwrite($fh, '['.date("D dS M,Y h:i a").'] - '.$message."\n");
+    fwrite($fh, '['.date("D dS M,Y h:i a").'] - '.$message."\n");
 
-	fclose($fh);
+    fclose($fh);
     }
 
-	return true;
-
+    return true;
 }
-
-
-?>

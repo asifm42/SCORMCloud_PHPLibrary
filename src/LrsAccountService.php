@@ -41,34 +41,33 @@ use AsifM42\ScormCloud\LrsAccount;
 /// Client-side proxy for the "rustici.lrsaccont.*" Hosted SCORM Engine web
 /// service methods.
 /// </summary>
-class LrsAccountService{
+class LrsAccountService
+{
+    private $_configuration = null;
 
-	private $_configuration = null;
+    public function __construct($configuration)
+    {
+        $this->_configuration = $configuration;
+    }
 
-	public function __construct($configuration) {
-		$this->_configuration = $configuration;
-	}
-
-	/// <summary>
+    /// <summary>
     /// Create new Activity Provider
     /// <returns>Created activity provider</returns>
     public function createActivityProvider()
     {
-    	$request = new ServiceRequest($this->_configuration);
+        $request = new ServiceRequest($this->_configuration);
         $response = $request->CallService("rustici.lrsaccount.createActivityProvider");
 
         write_log('rustici.lrsaccont.createActivityProvider : '.$response);
 
         $lrsAccountResult = new LrsAccount($response);
 
-    	return $lrsAccountResult;
+        return $lrsAccountResult;
     }
-
 
     /// <summary>
      /// Get a list of all activity providers
      /// </summary>
-
      /// <returns>List of Activity Providers</returns>
      public function listActivityProviders()
      {
@@ -93,17 +92,15 @@ class LrsAccountService{
 
         $params = array('accountkey'=>$accountKey);
 
-
-        if(isset($isActive))
-        {
+        if(isset($isActive)) {
             $params['isactive'] = $isActive;
         }
-        if(isset($authType))
-        {
+
+        if(isset($authType)) {
             $params['authtype'] = $authType;
         }
-        if (isset($label))
-        {
+
+        if (isset($label)) {
             $params['label'] = $label;
         }
 
@@ -121,7 +118,6 @@ class LrsAccountService{
      /// <summary>
      /// delete specified activity provider
      /// </summary>
-
      public function deleteActivityProvider($accountKey)
      {
         $request = new ServiceRequest($this->_configuration);
@@ -147,8 +143,4 @@ class LrsAccountService{
 
         write_log('rustici.lrsaccont.setAppLrsAuthCallbackUrl : '.$response);
      }
-
-
- }
-
-?>
+}

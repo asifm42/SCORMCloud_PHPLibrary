@@ -38,8 +38,8 @@ use AsifM42\ScormCloud\DebugLogger;
 /// Client-side proxy for the "rustici.Application.*" Hosted SCORM Engine web
 /// service methods.
 /// </summary>
-class ApplicationService{
-
+class ApplicationService
+{
     private $_configuration = null;
 
     public function __construct($configuration) {
@@ -69,12 +69,12 @@ class ApplicationService{
     {
         $request = new ServiceRequest($this->_configuration);
         $params = array('appid' => $appId);
-        if (isset($name))
-        {
+
+        if (isset($name)) {
             $params['name'] = $name;
         }
-        if (isset($allowDelete))
-        {
+
+        if (isset($allowDelete)) {
             $params['allowDelete'] = $allowDelete;
         }
 
@@ -122,9 +122,12 @@ class ApplicationService{
     public function AddSecretKey($appId, $description)
     {
         $request = new ServiceRequest($this->_configuration);
-        $params = array('appid' => $appId,
-            'description' => $description);
+        $params = array(
+            'appid' => $appId,
+            'description' => $description
+        );
         $request->setMethodParams($params);
+
         return $request->CallManagerService("rustici.application.addSecretKey");
     }
 
@@ -141,18 +144,18 @@ class ApplicationService{
         $request = new ServiceRequest($this->_configuration);
         $params = array('appid' => $appId,
             'secretkeyid' => $keyId);
-        if (isset($description))
-        {
+        if (isset($description)) {
             $params['description'] = $description;
         }
-        if (isset($active))
-        {
+
+        if (isset($active)) {
             $params['active'] = $active;
         }
 
         $request->setMethodParams($params);
 
         $response = $request->CallManagerService("rustici.application.updateSecretKey");
+
         return $response;
     }
 
@@ -164,8 +167,10 @@ class ApplicationService{
     public function DeleteSecretKey($appid, $keyId)
     {
         $request = new ServiceRequest($this->_configuration);
-        $params = array('appid' => $appid,
-            'secretkeyid' => $keyId);
+        $params = array(
+            'appid' => $appid,
+            'secretkeyid' => $keyId
+        );
         $request->SetMethodParams($params);
         $request->CallService("rustici.application.deleteSecretKey");
     }

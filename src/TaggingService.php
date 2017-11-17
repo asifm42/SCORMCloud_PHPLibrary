@@ -36,14 +36,15 @@ use AsifM42\ScormCloud\ServiceRequest;
 /// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web
 /// service methods.
 /// </summary>
-class TaggingService{
+class TaggingService
+{
+    private $_configuration = null;
 
-	private $_configuration = null;
-
-	public function __construct($configuration) {
-		$this->_configuration = $configuration;
-		//echo $this->_configuration->getAppId();
-	}
+    public function __construct($configuration)
+    {
+        $this->_configuration = $configuration;
+        //echo $this->_configuration->getAppId();
+    }
 
 
     /// <summary>
@@ -57,8 +58,9 @@ class TaggingService{
         $request = new ServiceRequest($this->_configuration);
         $params = array('courseid' => $courseId,
                         'tag' => $tag);
-		$request->setMethodParams($params);
+        $request->setMethodParams($params);
         $response = $request->CallService("rustici.tagging.addCourseTag");
+
         return $response;
     }
 
@@ -67,8 +69,9 @@ class TaggingService{
         $request = new ServiceRequest($this->_configuration);
         $params = array('courseid' => $courseId,
                         'tag' => $tag);
-		$request->setMethodParams($params);
+        $request->setMethodParams($params);
         $response = $request->CallService("rustici.tagging.removeCourseTag");
+
         return $response;
     }
 
@@ -77,8 +80,9 @@ class TaggingService{
         $request = new ServiceRequest($this->_configuration);
         $params = array('learnerid' => $learnerId,
                         'tag' => $tag);
-		$request->setMethodParams($params);
+        $request->setMethodParams($params);
         $response = $request->CallService("rustici.tagging.addLearnerTag");
+
         return $response;
     }
 
@@ -87,8 +91,9 @@ class TaggingService{
         $request = new ServiceRequest($this->_configuration);
         $params = array('learnerid' => $learnerId,
                         'tag' => $tag);
-		$request->setMethodParams($params);
+        $request->setMethodParams($params);
         $response = $request->CallService("rustici.tagging.removeLearnerTag");
+
         return $response;
     }
 
@@ -99,6 +104,7 @@ class TaggingService{
                         'tag' => $tag);
         $request->setMethodParams($params);
         $response = $request->CallService("rustici.tagging.addRegistrationTag");
+
         return $response;
     }
 
@@ -109,8 +115,7 @@ class TaggingService{
                         'tag' => $tag);
         $request->setMethodParams($params);
         $response = $request->CallService("rustici.tagging.removeRegistrationTag");
+
         return $response;
     }
 }
-
-?>

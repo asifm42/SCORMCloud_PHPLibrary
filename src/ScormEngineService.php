@@ -53,45 +53,46 @@ use AsifM42\ScormCloud\DispatchService;
 use AsifM42\ScormCloud\LrsAccountService;
 use AsifM42\ScormCloud\ApplicationService;
 
-class ScormEngineService {
-
-	private $_configuration = null;
+class ScormEngineService
+{
+    private $_configuration = null;
     private $_courseService = null;
     private $_registrationService = null;
     private $_uploadService = null;
     private $_ftpService = null;
-	private $_serviceRequest = null;
+    private $_serviceRequest = null;
     private $_taggingService = null;
     private $_accountService = null;
-	private $_debugService = null;
+    private $_debugService = null;
     private $_dispatchService = null;
-	private $_invitationService = null;
+    private $_invitationService = null;
     private $_lrsAccountService = null;
     private $_applicationService = null;
 
-	public function __construct($scormEngineServiceUrl, $appId, $securityKey, $originString, $proxy=null, $appManager=null, $managerKey=null) {
-		$this->_configuration = new Configuration($scormEngineServiceUrl, $appId, $securityKey, $appManager, $managerKey, $originString);
+    public function __construct($scormEngineServiceUrl, $appId, $securityKey, $originString, $proxy=null, $appManager=null, $managerKey=null) {
+        $this->_configuration = new Configuration($scormEngineServiceUrl, $appId, $securityKey, $appManager, $managerKey, $originString);
         $this->_configuration->setProxy($proxy);
-		$this->_serviceRequest = new ServiceRequest($this->_configuration);
+        $this->_serviceRequest = new ServiceRequest($this->_configuration);
         $this->_courseService = new CourseService($this->_configuration);
         $this->_registrationService = new RegistrationService($this->_configuration);
         $this->_uploadService = new UploadService($this->_configuration);
-		$this->_reportingService = new ReportingService($this->_configuration);
+        $this->_reportingService = new ReportingService($this->_configuration);
         $this->_taggingService = new TaggingService($this->_configuration);
         $this->_accountService = new AccountService($this->_configuration);
-		$this->_debugService = new DebugService($this->_configuration);
+        $this->_debugService = new DebugService($this->_configuration);
         $this->_dispatchService = new DispatchService($this->_configuration);
-		$this->_invitationService = new InvitationService($this->_configuration);
+        $this->_invitationService = new InvitationService($this->_configuration);
         $this->_lrsAccountService = new LrsAccountService($this->_configuration);
         $this->_applicationService = new ApplicationService($this->_configuration);
         //$_ftpService = new FtpService(configuration);
-	}
+    }
 
     public function isValidAccount() {
         $appId = $this->getAppId();
         $key = $this->getSecurityKey();
         $url = $this->getScormEngineServiceUrl();
         $origin = $this->getOriginString();
+
         if (empty($appId) || empty($key) || empty($url) || empty($origin)) {
             return false;
         }
@@ -104,101 +105,101 @@ class ScormEngineService {
     }
 
 
-	/**
-	* <summary>
+    /**
+    * <summary>
     * Contains all SCORM Engine Package-level (i.e., course) functionality.
     * </summary>
-	*/
+    */
     public function getCourseService()
     {
         return $this->_courseService;
     }
 
-	/**
-	* <summary>
+    /**
+    * <summary>
     * Contains all SCORM Engine Package-level (i.e., course) functionality.
     * </summary>
-	*/
+    */
     public function getRegistrationService()
     {
         return $this->_registrationService;
     }
 
-	/**
-	* <summary>
+    /**
+    * <summary>
     * Contains all SCORM Engine Upload/File Management functionality.
     * </summary>
-	*/
+    */
     public function getUploadService()
     {
         return $this->_uploadService;
     }
 
-	/**
-	* <summary>
+    /**
+    * <summary>
     * Contains all SCORM Engine Reportage functionality.
     * </summary>
-	*/
+    */
     public function getReportingService()
     {
         return $this->_reportingService;
     }
 
-	/**
-	* <summary>
+    /**
+    * <summary>
     * Contains all SCORM Engine FTP Management functionality.
     * </summary>
-	*/
+    */
     public function getFtpService()
     {
         return $this->_ftpService;
     }
 
     /**
-	* <summary>
+    * <summary>
     * Contains SCORM Engine tagging functionality.
     * </summary>
-	*/
+    */
     public function getTaggingService()
     {
         return $this->_taggingService;
     }
 
     /**
-	* <summary>
+    * <summary>
     * Contains SCORM Engine account info retrieval functionality.
     * </summary>
-	*/
+    */
     public function getAccountService()
     {
         return $this->_accountService;
     }
 
-	/**
-	* <summary>
+    /**
+    * <summary>
     * Contains SCORM Engine debug functionality.
     * </summary>
-	*/
+    */
     public function getDebugService()
     {
         return $this->_debugService;
     }
 
-	/**
-	* <summary>
+    /**
+    * <summary>
     * Contains SCORM Engine dispatch functionality.
     * </summary>
-	*/
+    */
     public function getDispatchService()
     {
         return $this->_dispatchService;
     }
 
-	/**
-	* <summary>
+    /**
+    * <summary>
     * Contains SCORM Engine Invitation functionality.
     * </summary>
-	*/
+    */
     public function getInvitationService()
     {
         return $this->_invitationService;
@@ -224,34 +225,34 @@ class ScormEngineService {
         return $this->_applicationService;
     }
 
-	/**
-	* <summary>
+    /**
+    * <summary>
     * The Application ID obtained by registering with the SCORM Engine Service
     * </summary>
-	*/
+    */
     public function getAppId()
     {
-            return $this->_configuration->getAppId();
+        return $this->_configuration->getAppId();
     }
 
-	/**
-	* <summary>
+    /**
+    * <summary>
     * The security key (password) linked to the Application ID
     * </summary>
-	*/
+    */
     public function getSecurityKey()
     {
-            return $this->_configuration->getSecurityKey();
+        return $this->_configuration->getSecurityKey();
     }
 
-	/**
-	* <summary>
+    /**
+    * <summary>
     * URL to the service, ex: http://services.scorm.com/EngineWebServices
     * </summary>
-	*/
+    */
     public function getScormEngineServiceUrl()
     {
-            return $this->_configuration->getScormEngineServiceUrl();
+        return $this->_configuration->getScormEngineServiceUrl();
     }
 
     public function getOriginString()
@@ -259,14 +260,13 @@ class ScormEngineService {
         return $this->_configuration->getOriginString();
     }
 
-	/**
-	* <summary>
+    /**
+    * <summary>
     * CreateNewRequest
     * </summary>
-	*/
+    */
     public function CreateNewRequest()
     {
         return new ServiceRequest($this->_configuration);
     }
 }
-?>

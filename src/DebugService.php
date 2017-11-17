@@ -36,19 +36,20 @@ use AsifM42\ScormCloud\ServiceRequest;
 /// Client-side proxy for the "rustici.debug.*" Hosted SCORM Engine web
 /// service methods.
 /// </summary>
-class DebugService{
+class DebugService
+{
+    private $_configuration = null;
 
-	private $_configuration = null;
+    public function __construct($configuration) {
+        $this->_configuration = $configuration;
+        //echo $this->_configuration->getAppId();
+    }
 
-	public function __construct($configuration) {
-		$this->_configuration = $configuration;
-		//echo $this->_configuration->getAppId();
-	}
-
-	public function CloudPing($throw = false)
+    public function CloudPing($throw = false)
     {
-		write_log('rustici.debug.ping being called...');
+        write_log('rustici.debug.ping being called...');
         $request = new ServiceRequest($this->_configuration);
+
         try {
             $response = $request->CallService("rustici.debug.ping");
             write_log('rustici.debug.ping returned : '.$response);
@@ -57,14 +58,16 @@ class DebugService{
             return false;
         }
 
-		$xml = simplexml_load_string($response);
-		return ($xml['stat'] == 'ok');
+        $xml = simplexml_load_string($response);
+
+        return ($xml['stat'] == 'ok');
     }
 
-	public function CloudAuthPing($throw = false)
+    public function CloudAuthPing($throw = false)
     {
-		write_log('rustici.debug.authPing being called...');
+        write_log('rustici.debug.authPing being called...');
         $request = new ServiceRequest($this->_configuration);
+
         try {
             $response = $request->CallService("rustici.debug.authPing");
             write_log('rustici.debug.authPing returned : '.$response);
@@ -73,11 +76,8 @@ class DebugService{
             return false;
         }
 
-		$xml = simplexml_load_string($response);
-		return ($xml['stat'] == 'ok');
+        $xml = simplexml_load_string($response);
+
+        return ($xml['stat'] == 'ok');
     }
-
-
 }
-
-?>

@@ -37,16 +37,17 @@ use AsifM42\ScormCloud\Enum;
 /// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web
 /// service methods.
 /// </summary>
-class InvitationService{
+class InvitationService
+{
+    private $_configuration = null;
 
-	private $_configuration = null;
+    public function __construct($configuration)
+    {
+        $this->_configuration = $configuration;
+        //echo $this->_configuration->getAppId();
+    }
 
-	public function __construct($configuration) {
-		$this->_configuration = $configuration;
-		//echo $this->_configuration->getAppId();
-	}
-
-	/// <summary>
+    /// <summary>
     /// Create a new SCORm Cloud invitation
     /// </summary>
     /// <param name="courseId">Unique Identifier for this course.</param>
@@ -55,136 +56,133 @@ class InvitationService{
     /// If the domain specified does not exist, the course will be placed in the default permission domain</param>
     /// <returns>List of Import Results</returns>
     public function CreateInvitation($courseId, $publicInvitation = 'true', $send = 'true',
- 									$addresses = null, $emailSubject = null, $emailBody = null, $creatingUserEmail = null,
-									$registrationCap = null, $postbackUrl = null, $authType = null, $urlName = null, $urlPass = null,
-									$resultsFormat = null, $async = false)
+                                    $addresses = null, $emailSubject = null, $emailBody = null, $creatingUserEmail = null,
+                                    $registrationCap = null, $postbackUrl = null, $authType = null, $urlName = null, $urlPass = null,
+                                    $resultsFormat = null, $async = false)
     {
-		$request = new ServiceRequest($this->_configuration);
+        $request = new ServiceRequest($this->_configuration);
         $params = array('courseid' => $courseId);
-		$params['send'] = $send;
-		$params['public'] = $publicInvitation;
+        $params['send'] = $send;
+        $params['public'] = $publicInvitation;
 
-		if (isset($addresses))
-		{
+        if (isset($addresses)) {
             $params['addresses'] = $addresses;
-		}
-		if (isset($emailSubject))
-		{
-            $params['emailSubject'] = $emailSubject;
-		}
-		if (isset($emailBody))
-		{
-            $params['emailBody'] = $emailBody;
-		}
-		if (isset($creatingUserEmail))
-		{
-            $params['creatingUserEmail'] = $creatingUserEmail;
-		}
-		if (isset($registrationCap))
-		{
-            $params['registrationCap'] = $registrationCap;
-		}
-		if (isset($postbackUrl))
-		{
-            $params['postbackUrl'] = $postbackUrl;
-		}
-		if (isset($authType))
-		{
-            $params['authType'] = $authType;
-		}
-		if (isset($urlName))
-		{
-            $params['urlName'] = $urlName;
-		}
-		if (isset($urlPass))
-		{
-            $params['urlPass'] = $urlPass;
-		}
-		if (isset($resultsFormat))
-		{
-            $params['resultsFormat'] = $resultsFormat;
-		}
+        }
 
-		$request->setMethodParams($params);
-		if ($async){
-			$response = $request->CallService("rustici.invitation.createInvitationAsync");
-		} else {
-			$response = $request->CallService("rustici.invitation.createInvitation");
-		}
+        if (isset($emailSubject)) {
+            $params['emailSubject'] = $emailSubject;
+        }
+
+        if (isset($emailBody)) {
+            $params['emailBody'] = $emailBody;
+        }
+
+        if (isset($creatingUserEmail)) {
+            $params['creatingUserEmail'] = $creatingUserEmail;
+        }
+
+        if (isset($registrationCap)) {
+            $params['registrationCap'] = $registrationCap;
+        }
+
+        if (isset($postbackUrl)) {
+            $params['postbackUrl'] = $postbackUrl;
+        }
+
+        if (isset($authType)) {
+            $params['authType'] = $authType;
+        }
+
+        if (isset($urlName)) {
+            $params['urlName'] = $urlName;
+        }
+
+        if (isset($urlPass)) {
+            $params['urlPass'] = $urlPass;
+        }
+
+        if (isset($resultsFormat)) {
+            $params['resultsFormat'] = $resultsFormat;
+        }
+
+        $request->setMethodParams($params);
+
+        if ($async) {
+            $response = $request->CallService("rustici.invitation.createInvitationAsync");
+        } else {
+            $response = $request->CallService("rustici.invitation.createInvitation");
+        }
+
         return $response;
     }
 
 
 
-	public function GetInvitationList($filter = null, $coursefilter = null)
+    public function GetInvitationList($filter = null, $coursefilter = null)
     {
-		$request = new ServiceRequest($this->_configuration);
-		$params = array();
+        $request = new ServiceRequest($this->_configuration);
+        $params = array();
 
-		if (isset($filter))
-		{
+        if (isset($filter)) {
             $params['filter'] = $filter;
-		}
+        }
 
-        if (isset($coursefilter))
-		{
+        if (isset($coursefilter)) {
             $params['coursefilter'] = $coursefilter;
-		}
+        }
+
         $request->setMethodParams($params);
         $response = $request->CallService("rustici.invitation.getInvitationList");
+
         return $response;
     }
 
-	public function GetInvitationStatus($invitationId)
+    public function GetInvitationStatus($invitationId)
     {
-		$request = new ServiceRequest($this->_configuration);
-		$params = array();
+        $request = new ServiceRequest($this->_configuration);
+        $params = array();
 
-		$params['invitationId'] = $invitationId;
+        $params['invitationId'] = $invitationId;
 
-
-		$request->setMethodParams($params);
+        $request->setMethodParams($params);
         $response = $request->CallService("rustici.invitation.getInvitationStatus");
+
         return $response;
     }
 
 
-	public function GetInvitationInfo($invitationId, $detail = null)
+    public function GetInvitationInfo($invitationId, $detail = null)
     {
-		$request = new ServiceRequest($this->_configuration);
-		$params = array();
+        $request = new ServiceRequest($this->_configuration);
+        $params = array();
 
-		$params['invitationId'] = $invitationId;
+        $params['invitationId'] = $invitationId;
 
-        if (isset($detail))
-		{
+        if (isset($detail)) {
             $params['detail'] = $detail;
-		}
+        }
 
-		$request->setMethodParams($params);
+        $request->setMethodParams($params);
         $response = $request->CallService("rustici.invitation.getInvitationInfo");
+
         return $response;
     }
 
-	public function ChangeStatus($invitationId, $enable, $open = null)
+    public function ChangeStatus($invitationId, $enable, $open = null)
     {
-		$request = new ServiceRequest($this->_configuration);
-		$params = array();
+        $request = new ServiceRequest($this->_configuration);
+        $params = array();
 
-		$params['invitationId'] = $invitationId;
-		$params['enable'] = $enable;
+        $params['invitationId'] = $invitationId;
+        $params['enable'] = $enable;
 
-        if (isset($open))
-		{
+        if (isset($open)) {
             $params['open'] = $open;
-		}
+        }
 
-		$request->setMethodParams($params);
+        $request->setMethodParams($params);
         $response = $request->CallService("rustici.invitation.changeStatus");
+
         return $response;
     }
-
-
- }
-
-?>
+}

@@ -34,21 +34,21 @@ namespace AsifM42\ScormCloud;
 /// Client-side token class for the tokens of the form <token><id>...</id></token>
 /// service methods.
 /// </summary>
-class Token {
-
+class Token
+{
     private $_tokenId;
 
-	/// <summary>
+    /// <summary>
     /// Maps <token><id>...</id></token> to a simple object
     /// </summary>
     /// <param name="courseDataElement"></param>
     public function __construct($tokenData)
     {
-		$xml = simplexml_load_string($tokenData);
-		if(isset($xml))
-		{
-	        $this->_tokenId = $xml->token->id;
-		}
+        $xml = simplexml_load_string($tokenData);
+
+        if (isset($xml)) {
+            $this->_tokenId = $xml->token->id;
+        }
     }
 
     /// <summary>
@@ -58,7 +58,4 @@ class Token {
     {
         return $this->_tokenId;
     }
-
 }
-
-?>

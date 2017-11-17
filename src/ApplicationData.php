@@ -30,81 +30,76 @@
 
 namespace AsifM42\ScormCloud;
 
- /// <summary>
-    /// Data class to hold high-level Application Data
-    /// </summary>
+/// <summary>
+/// Data class to hold high-level Application Data
+/// </summary>
 class ApplicationData
+{
+    private $_appId;
+    private $_createDate;
+    private $_name;
+    private $_data;
+
+    /// <summary>
+    /// Constructor which takes an XML node as returned by the web service.
+    /// </summary>
+    /// <param name="xml"></param>
+    public function __construct($xml)
     {
-        private $_appId;
-        private $_createDate;
-        private $_name;
-        private $_data;
+        $this->_appId = $xml->appId;
+        $this->_createDate = $xml->createDate;
+        $this->_name = $xml->name;
+        $this->_data = $xml;
+    }
 
-        /// <summary>
-        /// Constructor which takes an XML node as returned by the web service.
-        /// </summary>
-        /// <param name="xml"></param>
-        public function __construct($xml)
-        {
-            $this->_appId = $xml->appId;
-            $this->_createDate = $xml->createDate;
-            $this->_name = $xml->name;
-			$this->_data = $xml;
+    /// <summary>
+    /// Helper method which takes the full XmlDocument as returned from the Application listing
+    /// web service and returns a List of ApplicationData objects.
+    /// </summary>
+    /// <param name="xmlDoc"></param>
+    /// <returns></returns>
+    public static function ConvertToApplicationDataList($xmlDoc)
+    {
+        $allResults = array();
+
+        if ($xml = simplexml_load_string($xmlDoc)) {
+            foreach ($xml->applicationlist->application as $Application)
+            {
+                $allResults[] = new ApplicationData($Application);
+            }
+        } else {
+            echo 'error loading $xmlDoc';
         }
 
-        /// <summary>
-        /// Helper method which takes the full XmlDocument as returned from the Application listing
-        /// web service and returns a List of ApplicationData objects.
-        /// </summary>
-        /// <param name="xmlDoc"></param>
-        /// <returns></returns>
-        public static function ConvertToApplicationDataList($xmlDoc)
-        {
-			$allResults = array();
-			if($xml = simplexml_load_string($xmlDoc))
-			{
-		            foreach ($xml->applicationlist->application as $Application)
-		            {
-		                $allResults[] = new ApplicationData($Application);
-		            }
-			}else{
-				echo 'error loading $xmlDoc';
-			}
+        return $allResults;
+    }
 
+    /// <summary>
+    /// Unique Identifier for this Application
+    /// </summary>
+    public function getAppId()
+    {
+        return (string) $this->_appId;
+    }
 
-            return $allResults;
-        }
+    /// <summary>
+    /// Create date for this Application
+    /// </summary>
+    public function getCreateDate()
+    {
+        return $this->_createDate;
+    }
 
-        /// <summary>
-        /// Unique Identifier for this Application
-        /// </summary>
-        public function getAppId()
-        {
-            return (string) $this->_appId;
-        }
+    /// <summary>
+    /// Name for this Application
+    /// </summary>
+    public function getName()
+    {
+        return $this->_name;
+    }
 
-
-        /// <summary>
-        /// Create date for this Application
-        /// </summary>
-        public function getCreateDate()
-        {
-            return $this->_createDate;
-        }
-
-        /// <summary>
-        /// Name for this Application
-        /// </summary>
-        public function getName()
-        {
-            return $this->_name;
-        }
-
-        public function getData()
-        {
-            return $this->_data;
-        }
-
+    public function getData()
+    {
+        return $this->_data;
+    }
 }
-
-?>

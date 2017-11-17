@@ -30,35 +30,32 @@
 
 namespace AsifM42\ScormCloud;
 
-class ImportResult{
+class ImportResult
+{
+    private $_title = "";
+    private $_wasSuccessful = false;
+    private $_message = "";
+    private $_parserWarnings = array();
 
-	private $_title = "";
-	private $_wasSuccessful = false;
-	private $_message = "";
-	private $_parserWarnings = array();
-
-	/// <summary>
+    /// <summary>
     /// Purpose of this class is to map the return xml from the import
     /// web service into an object.  This is the main constructor.
     /// </summary>
     /// <param name="irXml">importresult Element</param>
     public function __construct($importResultElement)
     {
-		if(isset($importResultElement))
-		{
-		        $this->_title = (string) $importResultElement->title;
-		        $this->_message = (string) $importResultElement->message;
-		        $this->_wasSuccessful = filter_var( $importResultElement["successful"], FILTER_VALIDATE_BOOLEAN);
-				$pwarnings = $importResultElement->parserwarnings;
-				foreach ($pwarnings as $pwarning)
-				{
-					foreach ($pwarning->warning as $warning)
-		        	{
-						$this->_parserWarnings[] = (string)$warning;
-					}
-				}
+        if (isset($importResultElement)) {
+            $this->_title = (string) $importResultElement->title;
+            $this->_message = (string) $importResultElement->message;
+            $this->_wasSuccessful = filter_var( $importResultElement["successful"], FILTER_VALIDATE_BOOLEAN);
+            $pwarnings = $importResultElement->parserwarnings;
 
-		}
+            foreach ($pwarnings as $pwarning) {
+                foreach ($pwarning->warning as $warning) {
+                    $this->_parserWarnings[] = (string)$warning;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -71,11 +68,11 @@ class ImportResult{
     {
         $allResults = array();
 
-		$xml = simplexml_load_string($xmlDoc);
+        $xml = simplexml_load_string($xmlDoc);
 
         $importResults = $xml->importresult;
-        foreach ($importResults as $result)
-        {
+
+        foreach ($importResults as $result) {
             $allResults[] = new ImportResult($result);
         }
 
@@ -113,7 +110,4 @@ class ImportResult{
     {
         return $this->_parserWarnings;
     }
-
 }
-
-?>

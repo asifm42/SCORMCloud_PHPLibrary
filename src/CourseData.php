@@ -30,33 +30,33 @@
 
 namespace AsifM42\ScormCloud;
 
-class CourseData{
-	private $_courseId;
+class CourseData
+{
+    private $_courseId;
     private $_numberOfVersions;
     private $_numberOfRegistrations;
     private $_title;
 
-	/// <summary>
+    /// <summary>
     /// Purpose of this class is to map the return xml from the course listing
     /// web service into an object.  This is the main constructor.
     /// </summary>
     /// <param name="courseDataElement"></param>
     public function __construct($courseDataElement)
     {
-		//$xml = simplexml_load_string($courseDataElement);
-		//if (false === $xml) {
+        //$xml = simplexml_load_string($courseDataElement);
+        //if (false === $xml) {
             //throw new ScormEngine_XmlParseException('Could not parse XML.', $courseDataElement);
         //}
-		if(isset($courseDataElement))
-		{
-		        $this->_courseId = (string) $courseDataElement["id"];
-		        $this->_numberOfVersions = (integer) $courseDataElement["versions"];
-		        $this->_numberOfRegistrations = (integer) $courseDataElement["registrations"];
-		        $this->_title = (string) $courseDataElement["title"];
-		}
+        if (isset($courseDataElement)) {
+                $this->_courseId = (string) $courseDataElement["id"];
+                $this->_numberOfVersions = (integer) $courseDataElement["versions"];
+                $this->_numberOfRegistrations = (integer) $courseDataElement["registrations"];
+                $this->_title = (string) $courseDataElement["title"];
+        }
     }
 
-	/// <summary>
+    /// <summary>
     /// Helper method which takes the full XmlDocument as returned from the course listing
     /// web service and returns a List of CourseData objects.
     /// </summary>
@@ -64,22 +64,21 @@ class CourseData{
     /// <returns></returns>
     public static function ConvertToCourseDataList($xmlDoc)
     {
-		$xml = simplexml_load_string($xmlDoc);
-		if (false === $xml) {
+        $xml = simplexml_load_string($xmlDoc);
+        if (false === $xml) {
             //throw new ScormEngine_XmlParseException('Could not parse XML.', $courseDataElement);
         }
 
-		$allResults = array();
+        $allResults = array();
 
-        foreach ($xml->courselist->course as $course)
-        {
+        foreach ($xml->courselist->course as $course) {
             $allResults[] = new CourseData($course);
         }
 
         return $allResults;
     }
 
-	/// <summary>
+    /// <summary>
     /// Course Identifier as specified at import-time
     /// </summary>
     public function getCourseId()
@@ -112,5 +111,3 @@ class CourseData{
         return $this->_title;
     }
 }
-
-?>
