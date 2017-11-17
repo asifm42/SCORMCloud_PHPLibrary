@@ -1,10 +1,10 @@
 <?php
 
 /* Software License Agreement (BSD License)
- * 
+ *
  * Copyright (c) 2010-2011, Rustici Software, LLC
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -15,7 +15,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -37,12 +37,12 @@ require_once 'DebugLogger.php';
 
 	/// <summary>
    	/// Client-side proxy for the "rustici.registration.*" Hosted SCORM Engine web
-   	/// service methods.  
+   	/// service methods.
    	/// </summary>
 class RegistrationService{
-	
+
 	private $_configuration = null;
-	
+
 	public function __construct($configuration) {
 		$this->_configuration = $configuration;
 		//echo $this->_configuration->getAppId();
@@ -56,9 +56,9 @@ class RegistrationService{
         /// <param name="learnerId">Unique Identifier for the learner</param>
         /// <param name="learnerFirstName">Learner's first name</param>
         /// <param name="learnerLastName">Learner's last name</param>
-        public function CreateRegistration($registrationId, $courseId, $learnerId, $learnerFirstName, 
+        public function CreateRegistration($registrationId, $courseId, $learnerId, $learnerFirstName,
 											$learnerLastName,$email = null, $authtype = null, $resultsformat = 'xml',
-											$resultsPostbackUrl = null, $postBackLoginName = null, 
+											$resultsPostbackUrl = null, $postBackLoginName = null,
 											$postBackLoginPassword = null, $versionId = null)
         {
             $request = new ServiceRequest($this->_configuration);
@@ -68,8 +68,8 @@ class RegistrationService{
 							'fname'=>$learnerFirstName,
 							'lname'=>$learnerLastName,
 							'learnerid'=>$learnerId);
-							
-			
+
+
 			if(isset($email))
 			{
 				$params['email'] = $email;
@@ -99,9 +99,9 @@ class RegistrationService{
 			{
 				$params['versionid'] = $versionId;
 			}
-			
+
 			$request->setMethodParams($params);
-			
+
             return $request->CallService("rustici.registration.createRegistration");
         }
 
@@ -114,7 +114,7 @@ class RegistrationService{
             write_log($xml->result);
             return ($xml->result == 'true');
         }
-  
+
         /// <summary>
         /// Returns the current state of the registration, including completion
         /// and satisfaction type data.  Amount of detail depends on format parameter.
@@ -170,8 +170,8 @@ class RegistrationService{
             $reportElem = $xml->registrationreport;
             return new RegistrationSummary($reportElem);
         }
-        
-        
+
+
         /// <summary>
         /// Returns a list of registration id's along with their associated course
         /// </summary>
@@ -198,7 +198,7 @@ class RegistrationService{
 	    $regArray = $regData->ConvertToRegistrationDataList($response);
 	    return $regArray;
         }
-        
+
         /// <summary>
         /// Returns the detail of a registration
         /// </summary>
@@ -212,7 +212,7 @@ class RegistrationService{
             $response = $request->CallService("rustici.registration.getRegistrationDetail");
             return $response;
         }
-        
+
         /// <summary>
         /// Returns a list of registration id's along with their associated course
         /// </summary>
@@ -237,7 +237,7 @@ class RegistrationService{
 	      {
 		$params['resultsformat'] = $enum->getRegistrationResultsFormat($resultsFormat);
 	      }
-            
+
             $request->setMethodParams($params);
 
             $response = $request->CallService("rustici.registration.getRegistrationListResults");
@@ -319,37 +319,37 @@ class RegistrationService{
         {
             $request = new ServiceRequest($this->_configuration);
 			$params = array('regid' => $registrationId);
-            
+
             if(isset($redirectOnExitUrl))
 			{
                 $params['redirecturl'] = $redirectOnExitUrl;
-			} 
+			}
             if(isset($cssUrl))
 			{
                 $params['cssurl'] = $cssUrl;
-			} 
+			}
 			if(isset($debugLogPointerUrl))
 			{
-				$params['saveDebugLogPointerUrl'] = $debugLogPointerUrl;			
+				$params['saveDebugLogPointerUrl'] = $debugLogPointerUrl;
 			}
             if(isset($courseTags))
 			{
-				$params['courseTags'] = $courseTags;		
+				$params['courseTags'] = $courseTags;
 			}
             if(isset($learnerTags))
 			{
-				$params['learnerTags'] = $learnerTags;		
+				$params['learnerTags'] = $learnerTags;
 			}
             if(isset($registrationTags))
 			{
-				$params['registrationTags'] = $registrationTags;		
+				$params['registrationTags'] = $registrationTags;
 			}
 
 			$request->setMethodParams($params);
            	return $request->ConstructUrl("rustici.registration.launch");
         }
-	
-	
+
+
 	/// <summary>
     /// Returns list of launch info objects, each of which describe a particular launch,
     /// but note, does not include the actual history log for the launch. To get launch
@@ -362,7 +362,7 @@ class RegistrationService{
         $request = new ServiceRequest($this->_configuration);
 		$params = array('regid' => $registrationId);
 		$request->setMethodParams($params);
-        
+
         $response = $request->CallService("rustici.registration.getLaunchHistory");
 
 		$historyArray = LaunchInfo::ConvertToLaunchInfoList($response);
@@ -393,11 +393,11 @@ class RegistrationService{
 		{
 			$params['newid'] = $newid;
 		}
-		
+
 		$request->setMethodParams($params);
         $response = $request->CallService("rustici.registration.updateLearnerInfo");
         return $response;
-		
-		
+
+
 	}
 }

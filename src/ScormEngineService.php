@@ -1,10 +1,10 @@
 <?php
 
 /* Software License Agreement (BSD License)
- * 
+ *
  * Copyright (c) 2010-2014, Rustici Software, LLC
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -15,7 +15,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -50,8 +50,8 @@ require_once 'DebugService.php';
 require_once 'DispatchService.php';
 require_once 'LrsAccountService.php';
 require_once 'ApplicationService.php';
-
 require_once 'DebugLogger.php';
+
 
 
 class ScormEngineService{
@@ -87,7 +87,7 @@ class ScormEngineService{
         $this->_applicationService = new ApplicationService($this->_configuration);
         //$_ftpService = new FtpService(configuration);
 	}
-	
+
     public function isValidAccount() {
         $appId = $this->getAppId();
         $key = $this->getSecurityKey();
@@ -96,15 +96,15 @@ class ScormEngineService{
         if (empty($appId) || empty($key) || empty($url) || empty($origin)) {
             return false;
         }
-        
+
         return $this->_debugService->CloudAuthPing();
     }
-    
+
     public function isValidUrl(){
         return $this->_debugService->CloudPing();
     }
 
-    
+
 	/**
 	* <summary>
     * Contains all SCORM Engine Package-level (i.e., course) functionality.
@@ -154,7 +154,7 @@ class ScormEngineService{
     {
         return $this->_ftpService;
     }
-    
+
     /**
 	* <summary>
     * Contains SCORM Engine tagging functionality.
@@ -164,7 +164,7 @@ class ScormEngineService{
     {
         return $this->_taggingService;
     }
-    
+
     /**
 	* <summary>
     * Contains SCORM Engine account info retrieval functionality.
@@ -254,7 +254,7 @@ class ScormEngineService{
     {
             return $this->_configuration->getScormEngineServiceUrl();
     }
-    
+
     public function getOriginString()
     {
         return $this->_configuration->getOriginString();

@@ -1,10 +1,10 @@
 <?php
 
 /* Software License Agreement (BSD License)
- * 
- * Copyright (c) 2010-2011, Rustici Software, LLC
+ *
+ * Copyright (c) 2010-2014, Rustici Software, LLC
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -15,7 +15,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -30,85 +30,80 @@
 
 
  /// <summary>
-    /// Data class to hold high-level Registration Data
+    /// Data class to hold high-level Application Data
     /// </summary>
-class RegistrationData
+class ApplicationData
     {
-        private $_registrationId;
-        private $_courseId;
-		private $_data;
-       // private int numberOfInstances;
+        private $_appId;
+        private $_createDate;
+        private $_name;
+        private $_data;
 
         /// <summary>
         /// Constructor which takes an XML node as returned by the web service.
         /// </summary>
-        /// <param name="regDataEl"></param>
+        /// <param name="xml"></param>
         public function __construct($xml)
         {
-			//echo $regDataEl;
-			//$xml = simplexml_load_string($regDataEl);
-            $this->_registrationId = $xml["id"];
-            $this->_courseId = $xml["courseid"];
+            $this->_appId = $xml->appId;
+            $this->_createDate = $xml->createDate;
+            $this->_name = $xml->name;
 			$this->_data = $xml;
-            //this.numberOfInstances = Convert.ToInt32(regDataEl.Attributes["instances"].Value);
         }
 
         /// <summary>
-        /// Helper method which takes the full XmlDocument as returned from the registration listing
-        /// web service and returns a List of RegistrationData objects.
+        /// Helper method which takes the full XmlDocument as returned from the Application listing
+        /// web service and returns a List of ApplicationData objects.
         /// </summary>
         /// <param name="xmlDoc"></param>
         /// <returns></returns>
-        public static function ConvertToRegistrationDataList($xmlDoc)
+        public static function ConvertToApplicationDataList($xmlDoc)
         {
-			//echo '$xmlDoc='.$xmlDoc;
 			$allResults = array();
 			if($xml = simplexml_load_string($xmlDoc))
 			{
-		            foreach ($xml->registrationlist->registration as $registration)
+		            foreach ($xml->applicationlist->application as $Application)
 		            {
-						//echo $registration['id'];
-		                $allResults[] = new RegistrationData($registration);
+		                $allResults[] = new ApplicationData($Application);
 		            }
 			}else{
 				echo 'error loading $xmlDoc';
 			}
-		
+
 
             return $allResults;
         }
 
         /// <summary>
-        /// Unique Identifier for this registration
+        /// Unique Identifier for this Application
         /// </summary>
-        public function getRegistrationId()
+        public function getAppId()
         {
-            return $this->_registrationId;
+            return (string) $this->_appId;
+        }
+
+
+        /// <summary>
+        /// Create date for this Application
+        /// </summary>
+        public function getCreateDate()
+        {
+            return $this->_createDate;
         }
 
         /// <summary>
-        /// Unique Identifier for this course
+        /// Name for this Application
         /// </summary>
-        public function getCourseId()
+        public function getName()
         {
-            return $this->_courseId;
+            return $this->_name;
         }
 
-		public function getData()
+        public function getData()
         {
             return $this->_data;
         }
 
-//        /// <summary>
-//        /// Number of instances of this course.  Instances are independent registrations
-//        /// of the same registration ID.  It is essentially "retakes" of a course by
-//        /// the same user under the same registration ID.
-//        /// </summary>
-//        public int NumberOfInstances
-//        {
-//            get { return numberOfInstances; }
-//        }
- 
 }
 
 ?>

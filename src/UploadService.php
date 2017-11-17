@@ -1,10 +1,10 @@
 <?php
 
 /* Software License Agreement (BSD License)
- * 
+ *
  * Copyright (c) 2010-2011, Rustici Software, LLC
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -15,7 +15,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -37,17 +37,17 @@ require_once 'DebugLogger.php';
 
 /// <summary>
 /// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web
-/// service methods.  
+/// service methods.
 /// </summary>
 class UploadService{
-	
+
 	private $_configuration = null;
-	
+
 	public function __construct($configuration) {
 		$this->_configuration = $configuration;
 		//echo $this->_configuration->getAppId();
 	}
-	
+
 	public function GetUploadToken()
     {
 		write_log('rustici.upload.getUploadToken being called...');
@@ -66,16 +66,16 @@ class UploadService{
         $request = new ServiceRequest($this->_configuration);
         $request->setFileToPost($absoluteFilePathToZip);
 		write_log('rustici.upload.uploadFile : fileToPost='.$absoluteFilePathToZip);
-        
+
 		$mParams = array('token' => $token->getTokenId());
-	
+
 
         if (isset($permissionDomain)) {
             $mParams["pd"] = $permissionDomain;
         }
 
 		$request->setMethodParams($mParams);
-		
+
 		write_log('rustici.upload.uploadFile being called...');
         $response = $request->CallService("rustici.upload.uploadFile");
 		write_log('rustici.upload.getUploadToken returned : '.$response);
@@ -90,7 +90,7 @@ class UploadService{
 		write_log('UploadService.UploadFile() completed : '.$location);
         return $location;
     }
-    
+
     public function DeleteFile($location){
     	$location_parts = explode("/", $location);
     	write_log('UploadService.DeleteFile() being called...');
@@ -104,13 +104,13 @@ class UploadService{
 		{
 		write_log('UploadService.GetUploadLink() being called...');
         $token = $this->GetUploadToken();
-		
+
         $request = new ServiceRequest($this->_configuration);
 
 		$mParams = array('token' => $token->getTokenId());
 		$mParams["redirecturl"] = $importRedirectUrl;
 		$request->setMethodParams($mParams);
-		
+
 		return $request->ConstructUrl("rustici.upload.uploadFile");
 
 	}

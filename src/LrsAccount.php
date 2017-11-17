@@ -1,10 +1,10 @@
 <?php
 
 /* Software License Agreement (BSD License)
- * 
+ *
  * Copyright (c) 2013, Rustici Software, LLC
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -15,7 +15,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -28,7 +28,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
  /// <summary>
     /// Data class to hold high-level Registration Data
     /// </summary>
@@ -40,7 +39,7 @@ class LrsAccount
         private $_accountSecret;
         private $_accountAuthType;
 
-        
+
         /// private int numberOfInstances;
         /// <summary>
         /// Constructor which takes an XML node as returned by the web service.
@@ -56,18 +55,18 @@ class LrsAccount
             }
             else
             {
-                $xml = simplexml_load_string($xmlDoc);  
-                $xml = $xml->activityProvider;  
+                $xml = simplexml_load_string($xmlDoc);
+                $xml = $xml->activityProvider;
             }
-            
-            $this->_accountKey = (string)$xml->accountKey;            
+
+            $this->_accountKey = (string)$xml->accountKey;
             $this->_accountEnabled = (boolean)$xml->accountEnabled;
 	        $this->_accountLabel = (string)$xml->accountLabel;
             $this->_accountAuthType = (string)$xml->accountAuthType;
             $this->_accountSecret = (string)$xml->accountSecret;
         }
 
-        
+
         /// <summary>
         /// Helper method which takes the full XmlDocument as returned from the registration listing
         /// web service and returns a List of RegistrationData objects.
@@ -89,18 +88,18 @@ class LrsAccount
                     $allResults[] = new LrsAccount($activityProvider);
                 }
             }
-		
+
 
             return $allResults;
         }
 
-        
+
         public function getAccountKey()
         {
             return $this->_accountKey;
         }
 
-        
+
         public function getAccountEnabled()
         {
             return $this->_accountEnabled;
@@ -126,7 +125,7 @@ class LrsAccount
             $this->_accountKey = $accountKey;
         }
 
-        
+
         public function setAccountEnabled($accountEnabled)
         {
             $this->_accountEnabled = $accountEnabled;
@@ -146,7 +145,7 @@ class LrsAccount
         {
             $this->_accountAuthType = $accountAuthType;
         }
- 
+
 }
 
 ?>

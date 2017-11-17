@@ -1,10 +1,10 @@
 <?php
 
 /* Software License Agreement (BSD License)
- * 
+ *
  * Copyright (c) 2010-2014, Rustici Software, LLC
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -15,7 +15,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -30,7 +30,7 @@
 
 
 class Configuration{
-	
+
 	private $_appId = null;
     private $_securityKey = null;
     private $_scormEngineServiceUrl = null;
@@ -66,17 +66,17 @@ class Configuration{
 		// appManagerId
 		if (isset($appManagerId)) {
 			$this->setAppManagerId($appManagerId);
-		} 
+		}
 		// managerSecurityKey
 		if (isset($managerSecurityKey)) {
 			$this->setManagerSecurityKey($managerSecurityKey);
 		}
-		
+
 		if (isset($originString)) {
 			$this->setOriginString($originString);
 		}
 	}
-	
+
 	public function getAppId()
 	{
 		return $this->_appId;
@@ -85,7 +85,7 @@ class Configuration{
 	{
 		$this->_appId = $appId;
 	}
-	
+
 	public function getSecurityKey()
 	{
 		return $this->_securityKey;
@@ -103,7 +103,7 @@ class Configuration{
 	{
 		$this->_appManagerId = $appManagerId;
 	}
-	
+
 	public function getManagerSecurityKey()
 	{
 		return $this->_managerSecurityKey;
@@ -112,7 +112,7 @@ class Configuration{
 	{
 		$this->_managerSecurityKey = $securityKey;
 	}
-	
+
 	public function getScormEngineServiceUrl()
 	{
 		return $this->_scormEngineServiceUrl;
@@ -121,12 +121,12 @@ class Configuration{
 	{
 		$this->_scormEngineServiceUrl = $scormEngineServiceUrl;
 	}
-	
+
 	public function getOriginString()
 	{
 		return $this->_originString;
 	}
-	
+
 	public function setOriginString($originString)
 	{
 		$this->_originString = $originString;

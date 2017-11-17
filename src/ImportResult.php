@@ -1,10 +1,10 @@
 <?php
 
 /* Software License Agreement (BSD License)
- * 
+ *
  * Copyright (c) 2010-2011, Rustici Software, LLC
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -15,7 +15,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -29,87 +29,90 @@
  */
 
 
-class CourseData{
-	private $_courseId;
-    private $_numberOfVersions;
-    private $_numberOfRegistrations;
-    private $_title;
+class ImportResult{
+
+	private $_title = "";
+	private $_wasSuccessful = false;
+	private $_message = "";
+	private $_parserWarnings = array();
 
 	/// <summary>
-    /// Purpose of this class is to map the return xml from the course listing
+    /// Purpose of this class is to map the return xml from the import
     /// web service into an object.  This is the main constructor.
     /// </summary>
-    /// <param name="courseDataElement"></param>
-    public function __construct($courseDataElement)
+    /// <param name="irXml">importresult Element</param>
+    public function __construct($importResultElement)
     {
-		//$xml = simplexml_load_string($courseDataElement);
-		//if (false === $xml) {
-            //throw new ScormEngine_XmlParseException('Could not parse XML.', $courseDataElement);
-        //}
-		if(isset($courseDataElement))
+		if(isset($importResultElement))
 		{
-		        $this->_courseId = (string) $courseDataElement["id"];
-		        $this->_numberOfVersions = (integer) $courseDataElement["versions"];
-		        $this->_numberOfRegistrations = (integer) $courseDataElement["registrations"];
-		        $this->_title = (string) $courseDataElement["title"];
+		        $this->_title = (string) $importResultElement->title;
+		        $this->_message = (string) $importResultElement->message;
+		        $this->_wasSuccessful = filter_var( $importResultElement["successful"], FILTER_VALIDATE_BOOLEAN);
+				$pwarnings = $importResultElement->parserwarnings;
+				foreach ($pwarnings as $pwarning)
+				{
+					foreach ($pwarning->warning as $warning)
+		        	{
+						$this->_parserWarnings[] = (string)$warning;
+					}
+				}
+
 		}
     }
 
-	/// <summary>
-    /// Helper method which takes the full XmlDocument as returned from the course listing
-    /// web service and returns a List of CourseData objects.
+    /// <summary>
+    /// Helper method that takes the entire web service response document and
+    /// returns a List of one or more ImportResults.
     /// </summary>
     /// <param name="xmlDoc"></param>
     /// <returns></returns>
-    public static function ConvertToCourseDataList($xmlDoc)
+    public static function ConvertToImportResults($xmlDoc)
     {
+        $allResults = array();
+
 		$xml = simplexml_load_string($xmlDoc);
-		if (false === $xml) {
-            //throw new ScormEngine_XmlParseException('Could not parse XML.', $courseDataElement);
-        }
-		
-		$allResults = array();
-        
-        foreach ($xml->courselist->course as $course)
+
+        $importResults = $xml->importresult;
+        foreach ($importResults as $result)
         {
-            $allResults[] = new CourseData($course);
+            $allResults[] = new ImportResult($result);
         }
 
         return $allResults;
     }
 
-	/// <summary>
-    /// Course Identifier as specified at import-time
-    /// </summary>
-    public function getCourseId()
-    {
-        return $this->_courseId;
-    }
-
     /// <summary>
-    /// Count of the number of versions for this course/package
-    /// </summary>
-    public function getNumberOfVersions()
-    {
-        return $this->_numberOfVersions;
-    }
-
-    /// <summary>
-    /// Count of the number of existing registrations there are for this
-    /// course -- the number of instances that a user has taken this course.
-    /// </summary>
-    public function getNumberOfRegistrations()
-    {
-        return $this->_numberOfRegistrations;
-    }
-
-    /// <summary>
-    /// The title of this course
+    /// The Title of the course that was imported as derived from the manifest
     /// </summary>
     public function getTitle()
     {
         return $this->_title;
     }
+
+    /// <summary>
+    /// Indicates whether or not the import had any errors
+    /// </summary>
+    public function getWasSuccessful()
+    {
+        return $this->_wasSuccessful;
+    }
+
+    /// <summary>
+    /// More information regarding the success or failure of the import.
+    /// </summary>
+    public function getMessage()
+    {
+        return $this->_message;
+    }
+
+    /// <summary>
+    /// Warnings issued during import process related to the structure of the manifest.
+    /// </summary>
+    public function getParserWarnings()
+    {
+        return $this->_parserWarnings;
+    }
+
 }
 
 ?>

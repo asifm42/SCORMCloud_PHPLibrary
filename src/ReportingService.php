@@ -1,10 +1,10 @@
 <?php
 
 /* Software License Agreement (BSD License)
- * 
+ *
  * Copyright (c) 2010-2011, Rustici Software, LLC
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -15,7 +15,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -28,18 +28,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 require_once 'ServiceRequest.php';
 require_once 'DebugLogger.php';
 
 /// <summary>
 /// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web
-/// service methods.  
+/// service methods.
 /// </summary>
 class ReportingService{
-	
+
 	private $_configuration = null;
-	
+
 	public function __construct($configuration) {
 		$this->_configuration = $configuration;
 		//echo $this->_configuration->getAppId();
@@ -51,37 +50,37 @@ class ReportingService{
 		$params = array('appid' => $this->_configuration->getAppId());
 		$params['navpermission'] = $navpermission;
 		$params['admin'] = ($admin == true) ? 'true' : 'false';
-		 
+
 		$request->setMethodParams($params);
        	$response = $request->CallService("rustici.reporting.getReportageAuth");
        	$xml = simplexml_load_string($response);
 		write_log($xml->auth);
        	return $xml->auth;
 	}
-	
+
     public function GetReportUrl($auth, $reportUrl)
     {
 		$request = new ServiceRequest($this->_configuration);
 		$params = array('appid' => $this->_configuration->getAppId());
 		$params['auth'] = $auth;
-        $params['reporturl'] = $reportUrl;	 
+        $params['reporturl'] = $reportUrl;
 		$request->setMethodParams($params);
        	$response = $request->ConstructUrl("rustici.reporting.launchReport");
 		//error_log($response);
 		return $response;
     }
-    
+
     function GetReportageServiceUrl(){
         return str_replace('EngineWebServices','',$this->_configuration->getScormEngineServiceUrl());
     }
-    
+
     function GetReportageDate(){
         $request = new ServiceRequest($this->_configuration);
-        
+
         $rServiceUrl = $this->GetReportageServiceUrl();
         $reportageUrl = $rServiceUrl.'Reportage/scormreports/api/getReportDate.php?appId='.$this->_configuration->getAppId();
         return $request->submitHttpPost($reportageUrl);
-        
+
     }
 
     public function LaunchReportage($auth)
@@ -97,18 +96,18 @@ class ReportingService{
         $reportageUrl = $rServiceUrl.'/Reportage/reportage.php?courseId='.$courseid.'&appId='.$this->_configuration->getAppId();
        	return $this->GetReportUrl($auth, $reportageUrl);
     }
-	
+
 	public function LaunchUserReport($auth, $learnerid)
     {
 		$rServiceUrl = $this->GetReportageServiceUrl();
         $reportageUrl = $rServiceUrl.'/Reportage/reportage.php?learnerId='.$learnerid.'&appId='.$this->_configuration->getAppId();
        	return $this->GetReportUrl($auth, $reportageUrl);
     }
-	
+
 	public function GetWidgetUrl($auth, $widgettype, $widgetSettings = null)
     {
 		$rServiceUrl = $this->GetReportageServiceUrl();
-        
+
 		switch($widgettype)
 		{
 			case 'allSummary':
@@ -140,7 +139,7 @@ class ReportingService{
             case 'learnerTranscript':
             case 'learnerCourseInteractions':
             case 'learnerCourseComments':
-            
+
 				$reporturl = $rServiceUrl.'/Reportage/scormreports/widgets/DetailsWidget.php';
 				$reporturl .= '?drt='.$widgettype;
 				break;
@@ -155,9 +154,9 @@ class ReportingService{
 			default:
 				break;
 		}
-		
+
 		$reporturl .= '&appId='.$this->_configuration->getAppId();
-	
+
 		//process the WidgetSettings
 		if(isset($widgetSettings))
 		{
@@ -169,7 +168,7 @@ class ReportingService{
             {
                 $reporturl .= '&learnerId='.$widgetSettings->getLearnerId();
             }
-			
+
 			$reporturl .= '&showTitle='.boolString($widgetSettings->getShowTitle());
 			$reporturl .= '&standalone='.boolString($widgetSettings->getStandalone());
 			if($widgetSettings->getIframe())
@@ -183,13 +182,13 @@ class ReportingService{
 			$reporturl .= '&embedded='.boolString($widgetSettings->getEmbedded());
 			//$reporturl .= '&viewall='.boolString($widgetSettings->getViewAll());
 			//$reporturl .= '&export='.boolString($widgetSettings->getExport());
-		
-		
+
+
             //Process the DateRangeSettings
             $dateRangeSettings = $widgetSettings->getDateRangeSettings();
             if(isset($dateRangeSettings))
             {
-                
+
                 switch($dateRangeSettings->getDateRangeType())
                 {
                     case 'selection': //daterange
@@ -211,7 +210,7 @@ class ReportingService{
                         break;
                 }
             }
-            
+
             //Process Tags
             $tagSettings = $widgetSettings->getTagSettings();
             if(isset($tagSettings))
@@ -232,16 +231,16 @@ class ReportingService{
                     $reporturl .= '&registrationTags='.$tagSettings->getTagString('registration');
                     $reporturl .= '&viewRegistrationTagGroups='.$tagSettings->getViewTagString('registration');
                 }
-                
-                
+
+
             }
-            
+
             //Process Comparisons
             $comparisonSettings = $widgetSettings->getComparisonSettings();
             if(isset($comparisonSettings))
             {
-                
-                
+
+
                 $reporturl .= '&compDateRangeType=ad';
                 $reporturl .= '&compDateCriteria=launched';
                 $reporturl .= '&compLearnerTags=_all';
@@ -256,19 +255,19 @@ class ReportingService{
         //error_log("ReportUrl: ".$reporturl);
        	return $this->GetReportUrl($auth, $reporturl);
     }
-    
+
 }
 
 
 class WidgetSettings {
-	
+
     private $_dateRangeSettings;
     private $_tagSettings;
     private $_comparisonSettings;
-    
+
     private $_courseid = null;
     private $_learnerid = null;
-    
+
 	private $_showTitle = true;
 	private $_vertical = false;
 	private $_public = true;
@@ -281,13 +280,13 @@ class WidgetSettings {
 	private $_embedded = true;
 	private $_viewall = true;
 	private $_export = true;
-	
+
 	public function __construct($dateRangeSettings = null, $tagSettings = null, $comparisonSettings = null) {
 		$this->_dateRangeSettings = $dateRangeSettings;
         $this->_tagSettings = $tagSettings;
         $this->_comparisonSettings = $comparisonSettings;
 	}
-    
+
     public function getDateRangeSettings()
     {
         return $this->_dateRangeSettings;
@@ -300,8 +299,8 @@ class WidgetSettings {
     {
         return $this->_comparisonSettings;
     }
-    
-	
+
+
     public function setCourseId($val)
 	{
 		$this->_courseid = $val;
@@ -314,7 +313,7 @@ class WidgetSettings {
     {
         return isset($this->_courseid);
     }
-    
+
     public function setLearnerId($val)
 	{
 		$this->_learnerid = $val;
@@ -327,8 +326,8 @@ class WidgetSettings {
     {
         return isset($this->_learnerid);
     }
-    
-    
+
+
 	public function setShowTitle($val)
 	{
 		$this->_showTitle = $val;
@@ -428,20 +427,20 @@ class WidgetSettings {
 }
 
 class DateRangeSettings {
-	
+
 	private $_dateRangeType = null;
 	private $_dateRangeStart = null;
 	private $_dateRangeEnd = null;
 	private $_dateCriteria = null;
-	
-	
+
+
 	public function __construct($dateRangeType,$dateRangeStart,$dateRangeEnd,$dateCriteria) {
 		$this->_dateRangeType = $dateRangeType;
 		$this->_dateRangeStart = $dateRangeStart;
 		$this->_dateRangeEnd = $dateRangeEnd;
 		$this->_dateCriteria = $dateCriteria;
 	}
-	
+
 	public function getDateRangeType()
 	{
 		return $this->_dateRangeType;
@@ -461,24 +460,24 @@ class DateRangeSettings {
 }
 
 class TagSettings {
-	
+
 	private $_tags = array('learner' => array(),'course' => array(),'registration' => array());
-    
+
     public function addTag($tagType,$newValue)
     {
         $this->_tags[$tagType][] = $newValue;
     }
-    
+
     public function getTagString($tagType)
     {
         return implode(",",$this->_tags[$tagType])."|_all";
     }
-    
+
     public function getViewTagString($tagType)
     {
         return implode(",",$this->_tags[$tagType]);
     }
-    
+
     public function hasTags($tagType)
     {
         return (count($this->_tags[$tagType]) > 0);
@@ -496,7 +495,7 @@ class ComparisonSettings {
 }
 
 
-function boolString($bValue = false) {                      
+function boolString($bValue = false) {
 // returns string
   return ($bValue ? 'true' : 'false');
 }

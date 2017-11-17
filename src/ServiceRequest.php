@@ -1,10 +1,10 @@
 <?php
 
 /* Software License Agreement (BSD License)
- * 
+ *
  * Copyright (c) 2010-2014, Rustici Software, LLC
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -15,7 +15,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -33,7 +33,7 @@ require_once 'Configuration.php';
 require_once 'DebugLogger.php';
 
 class ServiceRequest{
-	
+
 	/**
      * Number of seconds to wait while connecting to the server.
      */
@@ -42,7 +42,7 @@ class ServiceRequest{
      * Total number of seconds to wait for a request.
      */
     const TIMEOUT_TOTAL = 500;
-	
+
 	private $_configuration = null;
 	private $_methodParams = array();
 	private $_fileToPost = null;
@@ -52,12 +52,12 @@ class ServiceRequest{
 		$this->_methodParams['applib'] = 'php';
 		//$this->_methodParams['appname'] = '';
 	}
-	
+
 	public function setMethodParams($paramsArray)
 	{
 		$this->_methodParams = array_merge($this->_methodParams, $paramsArray);
 	}
-	
+
 	public function setFileToPost($fileName)
 	{
 		$this->_fileToPost = $fileName;
@@ -68,7 +68,7 @@ class ServiceRequest{
             $this->_curlProxy = $proxy;
         }
     }
-	
+
 	public function CallService($methodName, $serviceUrl = null)
 	{
 		$postParams = null;
@@ -114,20 +114,20 @@ class ServiceRequest{
 
     public function ConstructUrl($methodName, $serviceUrl = null)
     {
-        return $this->ConstructAppAgnosticUrl($this->_configuration->getAppId(), 
-                                        $this->_configuration->getSecurityKey(), 
-                                        $methodName, 
+        return $this->ConstructAppAgnosticUrl($this->_configuration->getAppId(),
+                                        $this->_configuration->getSecurityKey(),
+                                        $methodName,
                                         $serviceUrl);
     }
 
     public function ConstructManagerUrl($methodName, $serviceUrl = null)
     {
-        return $this->ConstructAppAgnosticUrl($this->_configuration->getAppManagerId(), 
-                                        $this->_configuration->getManagerSecurityKey(), 
-                                        $methodName, 
+        return $this->ConstructAppAgnosticUrl($this->_configuration->getAppManagerId(),
+                                        $this->_configuration->getManagerSecurityKey(),
+                                        $methodName,
                                         $serviceUrl);
     }
-	
+
 	public function ConstructAppAgnosticUrl($appId, $secretKey, $methodName, $serviceUrl = null)
 	{
 		//error_log('serviceUrl = '.$serviceUrl);
@@ -142,22 +142,22 @@ class ServiceRequest{
 		{
 			$parameterMap[$key] = $value;
 		}
-		
+
 		if(isset($serviceUrl))
 		{
 			$url = $serviceUrl.'/api';
 		}else{
 			$url = $this->_configuration->getScormEngineServiceUrl().'/api';
 		}
-	
-		
+
+
 		$url .= '?'.$this->signParams($secretKey,$parameterMap);
-		
+
 		write_log("SCORM Cloud ConstructUrl : ".$url);
-		
+
 		return $url;
 	}
-	
+
 	 /// <summary>
         /// This method will evaluate the reponse string and manually validate
         /// the top-level structure.  If an err is present, this will be turned
@@ -187,7 +187,7 @@ class ServiceRequest{
 
             return $xmlString;
         }
-	
+
 	/**
      * Submit a POST request with to the specified URL with given parameters.
      *
@@ -220,7 +220,7 @@ class ServiceRequest{
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postParams);
         }else{
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "");        	
+            curl_setopt($ch, CURLOPT_POSTFIELDS, "");
         }
         // make sure problems are caught
         curl_setopt($ch, CURLOPT_FAILONERROR, 1);

@@ -1,10 +1,10 @@
 <?php
 
 /* Software License Agreement (BSD License)
- * 
+ *
  * Copyright (c) 2010-2011, Rustici Software, LLC
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -15,7 +15,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -29,7 +29,7 @@
  */
 
 
- /// <summary>
+/// <summary>
     /// Data class to hold high-level Launch Info
     /// </summary>
 class LaunchInfo
@@ -117,7 +117,7 @@ class LaunchInfo
         /// </summary>
         public function getLaunchTime()
         {
-            return $this->_launchTime; 
+            return $this->_launchTime;
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ class LaunchInfo
         /// </summary>
         public function getExitTime()
         {
-            return $this->_exitTime; 
+            return $this->_exitTime;
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ class LaunchInfo
         /// </summary>
         public function getLastUpdated()
         {
-            return $this->_lastUpdated; 
+            return $this->_lastUpdated;
         }
 
         /// <summary>
@@ -141,11 +141,11 @@ class LaunchInfo
         /// </summary>
         public function getLog()
         {
-            return $this->_log; 
+            return $this->_log;
         }
- 
+
 		//TODO:
-		
+
 		/// <summary>
         /// Return list of launch info objects from xml element
         /// </summary>
@@ -164,7 +164,7 @@ class LaunchInfo
 			}else{
 				echo 'error loading $xmlDoc';
 			}
-		
+
 
             return $allResults;
         }

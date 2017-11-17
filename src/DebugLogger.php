@@ -1,10 +1,10 @@
 <?php
 
 /* Software License Agreement (BSD License)
- * 
+ *
  * Copyright (c) 2010-2011, Rustici Software, LLC
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -15,7 +15,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -28,62 +28,27 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * Write To Log File
+ *
+ * @param string $message test to write to log
+ *
+ * @return bool success
+ */
+function write_log($message) {
+	$debug_enabled = false;
 
- /// <summary>
-    /// Data class to hold high-level Registration Summary
-    /// </summary>
-class RegistrationSummary
-    {
-		private $_complete;
-        private $_success;
-        private $_totaltime;
-        private $_score;
+    if ($debug_enabled){
+	$fh = fopen('SCORMCloud_debug.log', 'a');
 
-		/// <summary>
-        /// Inflate RegistrationSummary info object from passed in xml element
-        /// </summary>
-        /// <param name="launchInfoElem"></param>
-        public function __construct($xml)
-        {
-			$this->_complete = $xml->complete;
-	        $this->_success = $xml->success;
-            $this->_totalTime = $xml->totaltime;
-            $this->_score = $xml->score;
-        }
+	fwrite($fh, '['.date("D dS M,Y h:i a").'] - '.$message."\n");
 
+	fclose($fh);
+    }
 
-		/// <summary>
-        /// The completion status of the Registration Summary
-        /// </summary>
-        public function getComplete()
-        {
-            return $this->_complete;
-        }
-
-        /// <summary>
-        /// The success status of the Registration Summary
-        /// </summary>
-        public function getSuccess()
-        {
-			return $this->_success;
-        }
-
-        /// <summary>
-        /// The total time of the Registration Summary
-        /// </summary>
-        public function getTotalTime()
-        {
-            return $this->_totalTime;
-        }
-
-        /// <summary>
-        /// The score of the Registration Summary
-        /// </summary>
-        public function getScore()
-        {
-           return $this->_score;
-        }
+	return true;
 
 }
+
 
 ?>

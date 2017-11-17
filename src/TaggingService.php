@@ -1,10 +1,10 @@
 <?php
 
 /* Software License Agreement (BSD License)
- * 
+ *
  * Copyright (c) 2010-2011, Rustici Software, LLC
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -15,7 +15,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -33,18 +33,18 @@ require_once 'ServiceRequest.php';
 
 /// <summary>
 /// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web
-/// service methods.  
+/// service methods.
 /// </summary>
 class TaggingService{
-	
+
 	private $_configuration = null;
-	
+
 	public function __construct($configuration) {
 		$this->_configuration = $configuration;
 		//echo $this->_configuration->getAppId();
 	}
-	
-	
+
+
     /// <summary>
     /// Add a tag to the course.
     /// </summary>
@@ -60,7 +60,7 @@ class TaggingService{
         $response = $request->CallService("rustici.tagging.addCourseTag");
         return $response;
     }
-    
+
     public function RemoveCourseTag($courseId, $tag)
     {
         $request = new ServiceRequest($this->_configuration);
@@ -70,7 +70,7 @@ class TaggingService{
         $response = $request->CallService("rustici.tagging.removeCourseTag");
         return $response;
     }
-    
+
     public function AddLearnerTag($learnerId, $tag)
     {
         $request = new ServiceRequest($this->_configuration);
@@ -80,7 +80,7 @@ class TaggingService{
         $response = $request->CallService("rustici.tagging.addLearnerTag");
         return $response;
     }
-    
+
     public function RemoveLearnerTag($learnerId, $tag)
     {
         $request = new ServiceRequest($this->_configuration);
@@ -100,7 +100,7 @@ class TaggingService{
         $response = $request->CallService("rustici.tagging.addRegistrationTag");
         return $response;
     }
-    
+
     public function RemoveRegistrationTag($regId, $tag)
     {
         $request = new ServiceRequest($this->_configuration);
@@ -111,5 +111,5 @@ class TaggingService{
         return $response;
     }
 }
-    
+
 ?>
