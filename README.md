@@ -1,5 +1,7 @@
 # SCORM Cloud PHP API Bindings
 
+__This fork provides support for psr-4 namespacing__
+
 This library provides implementations for the majority, but not all, of the
 [SCORM Cloud API][1]. It is provided under the BSD 3-clause License (see
 [LICENSE](LICENSE.md)).
@@ -19,17 +21,15 @@ This library is available [via Composer][2].
 
 Command-line:
 
-    composer require rustici-software/scorm-cloud
+    composer require asifm42/scorm-cloud-php
 
 Composer.json:
 
     {
         "require": {
-            "rustici-software/scorm-cloud": "dev-master"
+            "asifm42/scorm-cloud-php": "dev-master"
         }
     }
-
-Alternately, the top-level .php files can be included in your project.
 
 ### Configuration
 
@@ -37,7 +37,7 @@ The `ScormEngineService` class provides simple access to the API
 bindings:
 
 ```php
-$scormCloud = new ScormEngineService(
+$scormCloud = new AsifM42\ScormCloud\ScormEngineService(
     "https://cloud.scorm.com/EngineWebServices",
     "your app id",
     "your secret key",
@@ -80,7 +80,7 @@ $scormCloud->getRegistrationService()->CreateRegistration(
 
 ```
 
-As explained in the [LMS Integration Guide][6], the registration, course, and 
+As explained in the [LMS Integration Guide][6], the registration, course, and
 learner IDs are provided by your system. The course ID needs to be an ID
 for a course that's already been imported. See the LMS integration guide for
 more information about integrating a typical LMS with SCORM Cloud.
@@ -142,7 +142,7 @@ As it happens, this is (close to) the implementation of the RegistrationExists
 method above.
 
 If you find methods missing and would like to implement them, we would be
-eternally grateful for any pull requests. 
+eternally grateful for any pull requests.
 
 ## Support
 
@@ -155,6 +155,7 @@ escalated quickly to real, live developers.
 
 
 [1]: https://cloud.scorm.com/docs/quick_start.html
+[2]: https://packagist.org/packages/asifm42/scorm-cloud-php
 [2]: https://packagist.org/packages/rustici-software/scorm-cloud
 [3]: https://cloud.scorm.com/docs/api_reference/index.html
 [4]: https://cloud.scorm.com/docs/api_reference/registration.html#exists
