@@ -29,7 +29,7 @@
  */
 
 
-class Enum{
+class Enum {
 
 	public function __construct() {
 	}

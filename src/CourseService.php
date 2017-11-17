@@ -30,7 +30,7 @@
 
 require_once 'ServiceRequest.php';
 require_once 'CourseData.php';
-require_once 'Enums.php';
+require_once 'Enum.php';
 require_once 'UploadService.php';
 require_once 'ImportResult.php';
 require_once 'DebugLogger.php';

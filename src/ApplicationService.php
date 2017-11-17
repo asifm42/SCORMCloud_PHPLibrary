@@ -29,7 +29,7 @@
  */
 
 
-require_once 'Enums.php';
+require_once 'Enum.php';
 require_once 'LaunchInfo.php';
 require_once 'DebugLogger.php';
 

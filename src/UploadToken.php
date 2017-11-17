@@ -31,7 +31,7 @@
 
 require_once 'ServiceRequest.php';
 require_once 'CourseData.php';
-require_once 'Enums.php';
+require_once 'Enum.php';
 
 
 /// <summary>
