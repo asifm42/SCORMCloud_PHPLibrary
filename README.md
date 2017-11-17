@@ -1,6 +1,6 @@
 # SCORM Cloud PHP API Bindings
 
-__This fork provides support for psr-4 namespacing__
+__This fork provides support for psr-4 autoloading.__
 
 This library provides implementations for the majority, but not all, of the
 [SCORM Cloud API][1]. It is provided under the BSD 3-clause License (see
